@@ -36,6 +36,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_13_224606) do
     t.float "percent_from_price_ath", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name", "symbol"], name: "index_alpha_coins_on_name_and_symbol", unique: true
+    t.index ["name"], name: "index_alpha_coins_on_name", unique: true
   end
 
   create_table "tribe_items", force: :cascade do |t|
@@ -45,6 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_13_224606) do
     t.integer "owned", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["item"], name: "index_tribe_items_on_item", unique: true
   end
 
 end

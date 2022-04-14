@@ -20,6 +20,9 @@ class CreateAlphaCoins < ActiveRecord::Migration[7.0]
       t.float :ath_price, null: false
       t.string :ath_date, null: false
       t.float :percent_from_price_ath, null: false
+
+      t.index :name, unique: true
+      t.index [:name, :symbol], unique: true
       t.timestamps
     end
   end

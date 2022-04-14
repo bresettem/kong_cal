@@ -1,8 +1,8 @@
 <p style="color: green"><%= notice %></p>
 
 <h1>Tribe items</h1>
-<h4>$<%= @akc_price.round(3) %>. Last updated at: <%= @last_updated %> CST</h4>
-<h6><%= @daily_yield %>$AKC <%= number_to_currency(@daily_yield * @akc_price) %>USD</h6>
+<h4>Current Price: $<%= @akc_price.round(3) %>. Last updated at: <%= @last_updated %> CST</h4>
+<h6>Daily Yield<%= @daily_yield %>$AKC <%= number_to_currency(@daily_yield * @akc_price) %>USD</h6>
 <div id="tribe_items">
   <table class="table table-striped">
     <thead>

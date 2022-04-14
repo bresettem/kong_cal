@@ -6,6 +6,7 @@ class CreateTribeItems < ActiveRecord::Migration[7.0]
       t.integer :price, default: 0
       t.integer :owned, default: 0
 
+      t.index :item, unique: true
       t.timestamps
     end
   end

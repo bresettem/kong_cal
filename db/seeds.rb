@@ -32,3 +32,42 @@ AlphaCoin.create(
   percent_from_price_ath: result['quotes']['USD']['percent_from_price_ath']
 )
 puts "Inserted into AlphaCoin"
+
+items= [{
+          item: 'Starship',
+          daily_yield: '5.2',
+          price: 200,
+          owned: 0
+        },
+        {
+          item: 'City',
+          daily_yield: '11',
+          price: 400,
+          owned: 0
+        },
+        {
+          item: 'Arena',
+          daily_yield: '24',
+          price: 800,
+          owned: 0
+        },
+        {
+          item: 'Mini Starship',
+          daily_yield: '1',
+          price: 50,
+          owned: 0
+        },
+        {
+          item: 'Lab',
+          daily_yield: '2.5',
+          price: 100,
+          owned: 0
+        },
+        {
+          item: 'Mini Lab',
+          daily_yield: '0.15',
+          price: 10,
+          owned: 0
+        },
+]
+TribeItem.insert_all!(items)
