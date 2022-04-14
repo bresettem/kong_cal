@@ -5,8 +5,10 @@ class TribeItemsController < ApplicationController
   def index
     @akc_price = AlphaCoin.first.price
     @last_updated = AlphaCoin.first.last_updated.in_time_zone.strftime("%m/%d/%Y %I:%M %p")
-    @daily_yield = TribeItem.where("owned >= ?", 1).sum(:daily_yield)
-    @tribe_items = TribeItem.all
+    owned = TribeItem.where("owned >= ?", 1)
+    sum = get_sum(owned)
+    @daily_yield = sum
+    @tribe_items = TribeItem.all.order(:daily_yield)
   end
 
   # GET /tribe_items/1 or /tribe_items/1.json
@@ -61,6 +63,7 @@ class TribeItemsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_tribe_item
       @tribe_item = TribeItem.find(params[:id])
@@ -69,5 +72,16 @@ class TribeItemsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def tribe_item_params
       params.require(:tribe_item).permit(:item, :daily_yield, :price, :owned)
+    end
+
+    def get_sum(owned)
+      sum = 0
+      puts owned
+      owned.each do |o|
+        o.owned.times do
+          sum += o.daily_yield
+        end
+      end
+      sum
     end
 end

@@ -1,8 +1,146 @@
+<%#= render 'index1' %>
+<div class="bg-dash-dark-2 py-4">
+  <div class="container-fluid">
+    <h2 class="h5 mb-0">Dashboard</h2>
+  </div>
+</div>
+<section>
+  <div class="container-fluid">
+    <div class="row gy-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Price</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1">$<%= @akc_price.round(5) %></p>
+            </div>
+            <div class="progress" style="height: 3px">
+              <div class="progress-bar bg-dash-color-1" role="progressbar" style="width: <%= @akc_price * 10 %>%" aria-valuenow="<%= @akc_price * 10 %>" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-dollar-sign svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-a svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-k svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-c svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Daily Yield</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= @daily_yield.round(3) %> $AKC</p>
+            </div>
+            <div class="progress" style="height: 3px">
+              <div class="progress-bar bg-dash-color-2" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-money-bill svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Price in USD</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-3"><%= number_to_currency(@daily_yield * @akc_price) %></p>
+            </div>
+            <div class="progress" style="height: 3px">
+              <div class="progress-bar bg-dash-color-3" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-clock svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Last Updated</p>
+              </div>
+              <p class="text-md-end lh-1 mb-0 text-dash-color-2"><%= @last_updated %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">30 Days</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1"><%= number_to_currency((@akc_price * @daily_yield) * 30) %></p>
+            </div>
+            <div class="progress" style="height: 3px">
+              <div class="progress-bar bg-dash-color-1" role="progressbar" style="width: <%= @akc_price * 10 %>%" aria-valuenow="<%= @akc_price * 10 %>" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-dollar-sign svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-a svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-k svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-c svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">60 Days</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= number_to_currency((@akc_price * @daily_yield) * 60) %></p>
+            </div>
+            <div class="progress" style="height: 3px">
+              <div class="progress-bar bg-dash-color-2" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-money-bill svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">90 Days</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-3"><%= number_to_currency((@akc_price * @daily_yield) * 90) %></p>
+            </div>
+            <div class="progress" style="height: 3px">
+              <div class="progress-bar bg-dash-color-3" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-clock svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">365 Days</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= number_to_currency((@akc_price * @daily_yield) * 365) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 <p style="color: green"><%= notice %></p>
-
-<h1>Tribe items</h1>
-<h4>Current Price: $<%= @akc_price.round(3) %>. Last updated at: <%= @last_updated %> CST</h4>
-<h6>Daily Yield<%= @daily_yield %>$AKC <%= number_to_currency(@daily_yield * @akc_price) %>USD</h6>
 <div id="tribe_items">
   <table class="table table-striped">
     <thead>
@@ -15,17 +153,16 @@
       <td>Price Spent</td>
     </tr>
     </thead>
-  <% @tribe_items.each do |tribe_item| %>
-    <tr>
-      <td><%=tribe_item.item %></td>
-      <td><%=tribe_item.daily_yield %></td>
-      <td><%=tribe_item.price %></td>
-      <td><%= number_to_currency(tribe_item.price * @akc_price) %></td>
-      <td><%=tribe_item.owned %></td>
-      <td><%= number_to_currency((tribe_item.price * @akc_price) * tribe_item.owned) %></td>
-      <td><%= link_to "Show this tribe item", tribe_item %></td>
-    </tr>
-  <% end %>
+    <% @tribe_items.each do |tribe_item| %>
+      <tr>
+        <td><%= tribe_item.item %></td>
+        <td><%= tribe_item.daily_yield %></td>
+        <td><%= tribe_item.price %></td>
+        <td><%= number_to_currency(tribe_item.price * @akc_price) %></td>
+        <td><%= tribe_item.owned %></td>
+        <td><%= number_to_currency((tribe_item.price * @akc_price) * tribe_item.owned) %></td>
+        <td><%= link_to "Show this tribe item", tribe_item %></td>
+      </tr>
+    <% end %>
   </table>
 </div>
-<%= render 'tribe_items/profit_est' %>

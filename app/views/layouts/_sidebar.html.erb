@@ -1,0 +1,25 @@
+<!-- Sidebar Navigation-->
+<nav id="sidebar">
+  <!-- Sidebar Header-->
+  <div class="sidebar-header d-flex align-items-center p-4">
+    <!--    <img class="avatar shadow-0 img-fluid rounded-circle" src="https://loremflickr.com/320/240?random=1" alt="...">-->
+    <!--    <div class="ms-3 title">-->
+    <!--      <h1 class="h5 mb-1">Mark Stephen</h1>-->
+    <!--      <p class="text-sm text-gray-700 mb-0 lh-1">Web Designer</p>-->
+    <!--    </div>-->
+  </div>
+  <span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span>
+  <ul class="list-unstyled">
+    <li class="sidebar-item active">
+      <%= link_to root_path, class: 'sidebar-link' do %>
+        <i class="fa-solid fa-house svg-icon svg-icon-sm svg-icon-heavy"></i> <span> Home</span>
+      <% end %>
+    </li>
+    <li class="sidebar-item"><a class="sidebar-link" href="tables.html">
+      <i class="fa-solid fa-table-cells-large svg-icon svg-icon-sm svg-icon-heavy"></i>
+      <span>  Tables</span></a></li>
+    <li class="sidebar-item"><a class="sidebar-link" href="charts.html">
+      <i class="fa-solid fa-chart-line svg-icon svg-icon-sm svg-icon-heavy"></i>
+      <span>  Charts</span></a></li>
+  </ul>
+</nav>
