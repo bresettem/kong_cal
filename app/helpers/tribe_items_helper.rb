@@ -1,0 +1,2 @@
+module TribeItemsHelper
+end

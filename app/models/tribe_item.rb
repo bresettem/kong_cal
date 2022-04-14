@@ -1,0 +1,2 @@
+class TribeItem < ApplicationRecord
+end

@@ -1,0 +1,31 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Tribe items</h1>
+<h4>$<%= @akc_price.round(3) %>. Last updated at: <%= @last_updated %> CST</h4>
+<h6><%= @daily_yield %>$AKC <%= number_to_currency(@daily_yield * @akc_price) %>USD</h6>
+<div id="tribe_items">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <td>Item</td>
+      <td>Daily Yield</td>
+      <td>Price in $AKC</td>
+      <td>Price in USD</td>
+      <td>Owned</td>
+      <td>Price Spent</td>
+    </tr>
+    </thead>
+  <% @tribe_items.each do |tribe_item| %>
+    <tr>
+      <td><%=tribe_item.item %></td>
+      <td><%=tribe_item.daily_yield %></td>
+      <td><%=tribe_item.price %></td>
+      <td><%= number_to_currency(tribe_item.price * @akc_price) %></td>
+      <td><%=tribe_item.owned %></td>
+      <td><%= number_to_currency((tribe_item.price * @akc_price) * tribe_item.owned) %></td>
+      <td><%= link_to "Show this tribe item", tribe_item %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>
+<%= render 'tribe_items/profit_est' %>
