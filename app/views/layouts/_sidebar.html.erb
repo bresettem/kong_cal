@@ -15,11 +15,29 @@
         <i class="fa-solid fa-house svg-icon svg-icon-sm svg-icon-heavy"></i> <span> Home</span>
       <% end %>
     </li>
+    <li class="sidebar-item"><a class="sidebar-link" href="#exampledropdownDropdown" data-bs-toggle="collapse">
+      <i class="fa-solid fa-chart-line svg-icon svg-icon-sm svg-icon-heavy"></i>
+      <span>Tables</span></a>
+      <ul class="collapse list-unstyled " id="exampledropdownDropdown">
+        <li><%= link_to 'All Tribe Items', total_tribes_path, class: 'sidebar-link' %></li>
+        <% unless @owned.nil? %>
+          <% @owned.each do |ti| %>
+            <li><%= link_to ti.item, tables_tribe_item_path(ti.id), class: 'sidebar-link' %></li>
+          <% end %>
+        <% end %>
+      </ul>
+    </li>
     <li class="sidebar-item"><a class="sidebar-link" href="tables.html">
       <i class="fa-solid fa-table-cells-large svg-icon svg-icon-sm svg-icon-heavy"></i>
       <span>  Tables</span></a></li>
     <li class="sidebar-item"><a class="sidebar-link" href="charts.html">
       <i class="fa-solid fa-chart-line svg-icon svg-icon-sm svg-icon-heavy"></i>
       <span>  Charts</span></a></li>
+    <li class="sidebar-item">
+      <%= link_to calculate_days_path, class: 'sidebar-link' do %>
+        <i class="fa-solid fa-calendar-days svg-icon svg-icon-sm svg-icon-heavy"></i>
+        <span>  Days Until</span>
+      <% end %>
+    </li>
   </ul>
 </nav>

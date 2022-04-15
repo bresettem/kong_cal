@@ -156,7 +156,7 @@
     <% @tribe_items.each do |tribe_item| %>
       <tr>
         <td><%= tribe_item.item %></td>
-        <td><%= tribe_item.daily_yield %></td>
+        <td><%= sum_daily_yield(tribe_item.daily_yield, tribe_item.owned) %></td>
         <td><%= tribe_item.price %></td>
         <td><%= number_to_currency(tribe_item.price * @akc_price) %></td>
         <td><%= tribe_item.owned %></td>

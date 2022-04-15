@@ -12,26 +12,11 @@
   <% end %>
 
   <div>
-    <%= form.label :item, style: "display: block" %>
-    <%= form.text_field :item, disabled: true %>
-  </div>
-
-  <div>
-    <%= form.label :daily_yield, style: "display: block" %>
-    <%= form.text_field :daily_yield, disabled: true  %>
-  </div>
-
-  <div>
-    <%= form.label :price, style: "display: block" %>
-    <%= form.number_field :price, disabled: true  %>
-  </div>
-
-  <div>
     <%= form.label :owned, style: "display: block" %>
-    <%= form.number_field :owned %>
+    <%= form.number_field :owned, min: 0 %>
   </div>
 
   <div>
-    <%= form.submit %>
+    <%= form.submit class: 'btb btn-success' %>
   </div>
 <% end %>

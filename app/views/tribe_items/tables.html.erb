@@ -1,0 +1,71 @@
+<section class="tables py-0 mt-4">
+  <div class="container-fluid">
+    <div class="row gy-4">
+      <div class="col-lg-6">
+        <div class="card mb-0">
+          <div class="card-header">
+            <h3 class="h4 mb-0"><%= @item.item %> Statistics</h3>
+          </div>
+          <div class="card-body pt-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                <tr>
+                  <td>Owned</td>
+                  <td>Daily Yield</td>
+                  <td>Adj Daily Yield $AKC</td>
+                  <td>Price in $AKC</td>
+                  <td>Price in USD</td>
+                  <td>Price Spent</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                  <td><%= @item.owned %></td>
+                  <td><%= @item.daily_yield %></td>
+                  <td><%= @item.daily_yield * @item.owned %></td>
+                  <td><%= @item.price %></td>
+                  <td><%= number_to_currency(convert_to_usd(@item.price, @akc_price)) %></td>
+                  <td><%= number_to_currency(convert_to_usd(@item.price, @akc_price) * @item.owned) %></td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-4 mt-3">
+      <div class="col-lg-6">
+        <div class="card mb-0">
+          <div class="card-header">
+            <h3 class="h4 mb-0"><%= @item.item %></h3>
+          </div>
+          <div class="card-body pt-0">
+            <div class="table-responsive">
+              <table class="table mb-0 table-striped table-hover">
+                <thead>
+                <tr>
+                  <td>Days Owned</td>
+                  <td>Price in $AKC</td>
+                  <td>Price in USD</td>
+                </tr>
+                </thead>
+                <tbody>
+                <% 1.upto(365) do |index| %>
+                  <tr>
+                    <td><%= index %></td>
+                    <td><%= (index * @item.daily_yield).round(1) %></td>
+                    <td><%= number_to_currency(index * convert_to_usd(@item.daily_yield, @akc_price)) %></td>
+                  </tr>
+                <% end %>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
