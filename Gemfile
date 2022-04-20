@@ -75,3 +75,4 @@ group :test do
 end
 gem 'figaro'
 gem 'whenever', require: false
+gem 'kaminari'

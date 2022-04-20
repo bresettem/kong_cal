@@ -62,12 +62,12 @@ class TribeItemsController < ApplicationController
     end
   end
 
-  def tables
+  def individual_item
     @item = TribeItem.find(params[:id])
   end
 
   def total_tribes
-
+    @total_tribes = @owned
   end
 
   def set_owned

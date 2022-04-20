@@ -12,7 +12,8 @@
   <span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">$AKC</span>
   <ul class="list-unstyled">
     <li class="sidebar-item">
-      <%= link_to url_for(action: 'update_alpha_coin', controller: 'alpha_coin'), remote: true, class: 'sidebar-link' do %>
+      <%= link_to url_for(action: 'update_alpha_coin', controller: 'alpha_coin'), remote: true,
+                  class: 'sidebar-link' do %>
         <i class="fa-solid fa-coins svg-icon svg-icon-sm svg-icon-heavy"></i> <span> Update $AKC</span>
       <% end %>
     </li>
@@ -31,7 +32,7 @@
         <li><%= link_to 'All Tribe Items', total_tribes_path, class: 'sidebar-link' %></li>
         <% unless @owned.nil? %>
           <% @owned.each do |ti| %>
-            <li><%= link_to ti.item, tables_tribe_item_path(ti.id), class: 'sidebar-link' %></li>
+            <li><%= link_to ti.item, individual_item_tribe_item_path(ti.id), class: 'sidebar-link' %></li>
           <% end %>
         <% end %>
       </ul>

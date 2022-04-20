@@ -12,8 +12,18 @@ module TribeItemsHelper
     daily_yield * owned
   end
 
-  def calculate_bonus(daily_yield, index)
+  def calculate_bonus_tribe(daily_yield, index)
     daily_yield + (daily_yield * get_bonus(index))
+  end
+
+  def calculate_bonus_tribe_split(daily_yield, index)
+    bonus = get_bonus(index)
+    combined = daily_yield + (daily_yield * bonus)
+    [combined, "#{(bonus * 100).round(0)}%", daily_yield]
+  end
+
+  def total_daily_yield(daily_yield, owned)
+    daily_yield * owned
   end
 
   private

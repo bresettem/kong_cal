@@ -22,7 +22,8 @@
                 <tr>
                   <td><%= @item.owned %></td>
                   <td><%= @item.daily_yield %></td>
-                  <td><%= @item.daily_yield * @item.owned %></td>
+                  <% tot_yield = total_daily_yield(@item.daily_yield, @item.owned) %>
+                  <td><%= tot_yield %></td>
                   <td><%= @item.price %></td>
                   <td><%= convert_to_usd(@item.price, @akc_price) %></td>
                 </tr>
@@ -39,29 +40,7 @@
           <div class="card-header">
             <h3 class="h4 mb-0"><%= @item.item %></h3>
           </div>
-          <div class="card-body pt-0">
-            <div class="table-responsive">
-              <table class="table mb-0 table-striped table-hover">
-                <thead>
-                <tr>
-                  <td>Days Owned</td>
-                  <td>Price in $AKC</td>
-                  <td>Price in USD</td>
-                </tr>
-                </thead>
-                <tbody>
-                <% 1.upto(365) do |index| %>
-                  <tr>
-                    <td><%= index %></td>
-                    <td><%= (index * (@item.daily_yield * @item.owned)).round(1) %></td>
-                    <td><%= convert_to_usd_per_day(index, (@item.daily_yield * @item.owned), @akc_price) %></td>
-                  </tr>
-                <% end %>
-
-                </tbody>
-              </table>
-            </div>
-          </div>
+          <%= render 'tribe_items/table', tot_yield: tot_yield %>
         </div>
       </div>
     </div>

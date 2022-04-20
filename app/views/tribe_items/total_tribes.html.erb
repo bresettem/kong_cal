@@ -1,1 +1,56 @@
-<%= @owned.inspect %>
+<section class="tables py-0 mt-4">
+  <div class="container-fluid">
+    <div class="row gy-4">
+      <div class="col-lg-6">
+        <div class="card mb-0">
+          <div class="card-header">
+            <h3 class="h4 mb-0">Total Tribe Statistics</h3>
+          </div>
+          <div class="card-body pt-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                <tr>
+                  <td>Tribe</td>
+                  <td>Owned</td>
+                  <td>Daily Yield</td>
+                  <td>Adj Daily Yield $AKC</td>
+                  <td>Price in $AKC</td>
+                  <td>Price in USD</td>
+                </tr>
+                </thead>
+                <tbody>
+                <% tot_yield = 0 %>
+
+                <% @total_tribes.each do |item| %>
+                  <% yield_per_item = total_daily_yield(item.daily_yield, item.owned) %>
+                  <tr>
+                    <td><%= item.item %></td>
+                    <td><%= item.owned %></td>
+                    <td><%= item.daily_yield %></td>
+                    <td><%= yield_per_item %></td>
+                    <td><%= item.price %></td>
+                    <td><%= convert_to_usd(item.price, @akc_price) %></td>
+                  </tr>
+                  <% tot_yield += yield_per_item %>
+                <% end %>
+                </tbody>
+              </table>
+              <strong class="mt-1">Daily yield: <%= tot_yield %></strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-4 mt-3">
+      <div class="col-lg-6">
+        <div class="card mb-0">
+          <div class="card-header">
+            <h3 class="h4 mb-0">Total</h3>
+          </div>
+          <%= render 'tribe_items/table', tot_yield: tot_yield %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

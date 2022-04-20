@@ -1,0 +1,29 @@
+<div class="card-body pt-0">
+  <div class="table-responsive">
+    <table class="table mb-0 table-striped table-hover">
+      <thead>
+      <tr>
+        <td>Days Owned</td>
+        <td>Price in $AKC</td>
+        <td>Price in USD</td>
+      </tr>
+      </thead>
+      <tbody>
+      <% 1.upto(365) do |index| %>
+        <tr>
+          <td><%= index %></td>
+          <td>
+            <% split = calculate_bonus_tribe_split(tot_yield, index) %>
+            <%= (index * split[0]).round(1) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="Bonus: <%= split[1] %>">
+                        <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+                      </span>
+          </td>
+          <td><%= convert_to_usd_per_day(index, tot_yield, @akc_price) %>
+        </tr>
+      <% end %>
+
+      </tbody>
+    </table>
+  </div>
+</div>

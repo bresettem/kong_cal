@@ -136,18 +136,18 @@ class GoalsController < ApplicationController
 
         sum += daily_yield
         puts "index: #{index}. sum: #{sum}"
-        # sum += calculate_bonus(daily_yield, index)
+        # sum += calculate_bonus_goal(daily_yield, index)
         if no_tribes === true
-          return [index, calculate_bonus(daily_yield, index), sum] if goal < sum || (index >= days)
+          return [index, calculate_bonus_goal(daily_yield, index), sum] if goal < sum || (index >= days)
         end
         next if no_tribes === true
         if (sum > mini_lab_price) && (only_mini_lab === true)
           # puts "total: #{total}. mini_lab_price: #{mini_lab_price}"
-          return [index, calculate_bonus(daily_yield, index), sum] if (goal < sum) || (index >= days)
+          return [index, calculate_bonus_goal(daily_yield, index), sum] if (goal < sum) || (index >= days)
           count = 0
           while sum >= mini_lab_price
             sum -= mini_lab_price
-            daily_yield += calculate_bonus(0.15, index)
+            daily_yield += calculate_bonus_goal(0.15, index)
             count += 1
             # puts "#{index} Bought mini lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
           end
@@ -162,7 +162,7 @@ class GoalsController < ApplicationController
           count = 0
           while sum > min_star_ship_price
             sum -= min_star_ship_price
-            daily_yield += calculate_bonus(1, index)
+            daily_yield += calculate_bonus_goal(1, index)
             count += 1
             # puts "#{index} Bought mini starship on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
           end
@@ -178,7 +178,7 @@ class GoalsController < ApplicationController
           lab = true
           sum -= lab_price
           or_dy = 2.5
-          calculated_bonus = calculate_bonus(2.5, index)
+          calculated_bonus = calculate_bonus_goal(2.5, index)
           puts "daily_yield: #{daily_yield}"
           daily_yield += calculated_bonus
           after_dy = daily_yield
@@ -189,7 +189,7 @@ class GoalsController < ApplicationController
         if (sum > starship_price) && starship === false
           puts "total: #{total}. starship_price: #{starship_price}"
           return index if goal < sum
-          daily_yield += calculate_bonus(5.2, index)
+          daily_yield += calculate_bonus_goal(5.2, index)
           sum -= starship_price
           starship = true
           total += 1
@@ -197,7 +197,7 @@ class GoalsController < ApplicationController
         end
         if (sum > city_price) && city === false
           puts "total: #{total}. city_price: #{city_price}"
-          daily_yield += calculate_bonus(11, index)
+          daily_yield += calculate_bonus_goal(11, index)
           return [index, daily_yield, sum] if goal < sum
           sum -= city_price
           city = true
@@ -207,7 +207,7 @@ class GoalsController < ApplicationController
         # puts "sum: #{sum.round(2)}. index: #{index}. Daily yield: #{daily_yield}"
         if (sum > arena_price) && arena === false
           puts "total: #{total}. arena_price: #{arena_price}"
-          daily_yield += calculate_bonus(24, index)
+          daily_yield += calculate_bonus_goal(24, index)
           return [index, daily_yield, sum - 800] if goal < sum
           # arena = true
           sum -= arena_price

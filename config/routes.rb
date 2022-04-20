@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   resources :goals
   resources :tribe_items do
     member do
-      get 'tables'
+      get 'individual_item'
     end
   end
   get '/update_alpha', to: 'alpha_coin#update_alpha_coin'
