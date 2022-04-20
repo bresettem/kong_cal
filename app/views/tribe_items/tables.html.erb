@@ -16,7 +16,6 @@
                   <td>Adj Daily Yield $AKC</td>
                   <td>Price in $AKC</td>
                   <td>Price in USD</td>
-                  <td>Price Spent</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,8 +24,7 @@
                   <td><%= @item.daily_yield %></td>
                   <td><%= @item.daily_yield * @item.owned %></td>
                   <td><%= @item.price %></td>
-                  <td><%= number_to_currency(convert_to_usd(@item.price, @akc_price)) %></td>
-                  <td><%= number_to_currency(convert_to_usd(@item.price, @akc_price) * @item.owned) %></td>
+                  <td><%= convert_to_usd(@item.price, @akc_price) %></td>
                 </tr>
                 </tbody>
               </table>
@@ -55,8 +53,8 @@
                 <% 1.upto(365) do |index| %>
                   <tr>
                     <td><%= index %></td>
-                    <td><%= (index * @item.daily_yield).round(1) %></td>
-                    <td><%= number_to_currency(index * convert_to_usd(@item.daily_yield, @akc_price)) %></td>
+                    <td><%= (index * (@item.daily_yield * @item.owned)).round(1) %></td>
+                    <td><%= convert_to_usd_per_day(index, (@item.daily_yield * @item.owned), @akc_price) %></td>
                   </tr>
                 <% end %>
 

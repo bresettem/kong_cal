@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  unclaimed_coins: 1.5
+  goal: 1.5
+  started_on: 2022-04-19
+
+two:
+  unclaimed_coins: 1.5
+  goal: 1.5
+  started_on: 2022-04-19

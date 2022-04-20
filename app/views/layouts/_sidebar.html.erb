@@ -8,6 +8,15 @@
     <!--      <p class="text-sm text-gray-700 mb-0 lh-1">Web Designer</p>-->
     <!--    </div>-->
   </div>
+
+  <span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">$AKC</span>
+  <ul class="list-unstyled">
+    <li class="sidebar-item">
+      <%= link_to url_for(action: 'update_alpha_coin', controller: 'alpha_coin'), remote: true, class: 'sidebar-link' do %>
+        <i class="fa-solid fa-coins svg-icon svg-icon-sm svg-icon-heavy"></i> <span> Update $AKC</span>
+      <% end %>
+    </li>
+  </ul>
   <span class="text-uppercase text-gray-600 text-xs mx-3 px-2 heading mb-2">Main</span>
   <ul class="list-unstyled">
     <li class="sidebar-item active">
@@ -27,16 +36,10 @@
         <% end %>
       </ul>
     </li>
-    <li class="sidebar-item"><a class="sidebar-link" href="tables.html">
-      <i class="fa-solid fa-table-cells-large svg-icon svg-icon-sm svg-icon-heavy"></i>
-      <span>  Tables</span></a></li>
-    <li class="sidebar-item"><a class="sidebar-link" href="charts.html">
-      <i class="fa-solid fa-chart-line svg-icon svg-icon-sm svg-icon-heavy"></i>
-      <span>  Charts</span></a></li>
     <li class="sidebar-item">
-      <%= link_to calculate_days_path, class: 'sidebar-link' do %>
+      <%= link_to goals_path, class: 'sidebar-link' do %>
         <i class="fa-solid fa-calendar-days svg-icon svg-icon-sm svg-icon-heavy"></i>
-        <span>  Days Until</span>
+        <span>  Goal</span>
       <% end %>
     </li>
   </ul>

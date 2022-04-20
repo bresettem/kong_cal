@@ -1,0 +1,24 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Goals</h1>
+
+<div id="goals">
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <td>Unclaimed Coins</td>
+      <td>Goal</td>
+      <td>Started On</td>
+
+    </tr>
+    </thead>
+    <% @goals.each do |goal| %>
+      <%= render goal %>
+      <!--    <p>-->
+      <%#= link_to "Show this goal", goal %>
+      <!--    </p>-->
+    <% end %>
+  </table>
+</div>
+
+<%= link_to "New goal", new_goal_path %>

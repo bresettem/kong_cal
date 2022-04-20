@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_13_224606) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_19_224640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,6 +38,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_13_224606) do
     t.datetime "updated_at", null: false
     t.index ["name", "symbol"], name: "index_alpha_coins_on_name_and_symbol", unique: true
     t.index ["name"], name: "index_alpha_coins_on_name", unique: true
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.float "unclaimed_coins", default: 0.0, null: false
+    t.float "goal", default: 0.0, null: false
+    t.date "started_on", default: "2022-04-19", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tribe_items", force: :cascade do |t|

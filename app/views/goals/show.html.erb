@@ -1,0 +1,38 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @goal %>
+
+<div>
+  <%= link_to "Edit this goal", edit_goal_path(@goal) %> |
+  <%= link_to "Back to goals", goals_path %>
+
+  <%= button_to "Destroy this goal", @goal, method: :delete %>
+</div>
+
+<p>Daily Yield: <%= @daily_yield %></p>
+<p>Goal: <%= @set_goal %></p>
+<p>$AKC Price: <%= @akc_price.round(2) %></p>
+<p>Days since claimed: <%= @num_days %> days</p>
+
+<p>
+  Buying tribes: <%= @buy_tribes[0] %> days <%= format_date(@buy_tribes[0]) %>. Daily
+  Yield: <%= @buy_tribes[1].round(2) %>. Price in USD: <%= convert_to_usd(@buy_tribes[1], @akc_price) %>.
+  Sum: <%= @buy_tribes[2].round(2) %>. Leftover: <%= convert_to_usd(@buy_tribes[2].round(2), @akc_price) %>
+</p>
+<p>
+  Only mini starship: <%= @only_mini_starship[0] %> days <%= format_date(@only_mini_starship[0]) %>. Daily
+  Yield: <%= @only_mini_starship[1].round(2) %>. Price in
+  USD: <%= convert_to_usd(@only_mini_starship[1], @akc_price) %>
+  Sum: <%= @only_mini_starship[2].round(2) %>.
+  Leftover: <%= convert_to_usd(@only_mini_starship[2].round(2), @akc_price) %>
+</p>
+<p>
+  Only mini lab: <%= @only_mini_lab[0] %> days <%= format_date(@only_mini_lab[0]) %>. Daily
+  Yield: <%= @only_mini_lab[1].round(2) %>. Price in USD: <%= convert_to_usd(@only_mini_lab[1], @akc_price) %>
+  Sum: <%= @only_mini_lab[2].round(2) %>. Leftover: <%= convert_to_usd(@only_mini_lab[2].round(2), @akc_price) %>
+</p>
+<p>
+  Not buying tribes: <%= @no_tribes[0] %> days <%= format_date(@no_tribes[0]) %>. Daily
+  Yield: <%= @no_tribes[1].round(2) %>. Price in USD: <%= convert_to_usd(@no_tribes[1], @akc_price) %>
+  Sum: <%= @no_tribes[2].round(2) %>. Leftover: <%= convert_to_usd(@no_tribes[2].round(2), @akc_price) %>
+</p>

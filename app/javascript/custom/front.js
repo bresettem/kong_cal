@@ -1,6 +1,5 @@
 "use strict";
-
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("turbo:load", function () {
     // ------------------------------------------------------- //
     // Transition Placeholders
     // ------------------------------------------------------ //
@@ -144,6 +143,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }
+
         watchError();
     }
 

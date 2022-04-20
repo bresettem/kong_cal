@@ -1,0 +1,9 @@
+<div id="<%= dom_id goal %>">
+  <tr>
+    <td><%= goal.unclaimed_coins %></td>
+    <td><%= goal.goal %></td>
+    <td><%= goal.started_on %></td>
+    <td><%= link_to "Edit", edit_goal_path(goal) %></td>
+    <td><%= link_to "Show", goal %></td>
+  </tr>
+</div>
