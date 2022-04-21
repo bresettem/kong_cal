@@ -1,0 +1,24 @@
+<div class="table-responsive">
+  <div id="goal_items">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <td>Days</td>
+        <td>Bought On</td>
+        <td>Bought</td>
+        <td>$AKC</td>
+        <td>Daily Yield</td>
+      </tr>
+      </thead>
+      <% items.each do |item| %>
+        <tr>
+          <td><%= item[:days] %></td>
+          <td><%= item[:on].strftime('%m/%d/%Y') %></td>
+          <td><%= pluralize(item[:bought], item[:item]) %></td>
+          <td><%= item[:sum].round(3) %></td>
+          <td><%= item[:daily_yield].round(3) %></td>
+        </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

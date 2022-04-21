@@ -4,7 +4,7 @@ module GoalsHelper
   end
 
   def format_date(num_days)
-    Time.now + num_days.days
+    (Time.now + num_days.days).strftime('%m/%d/%Y')
   end
 
   def convert_to_usd(coin)
