@@ -29,7 +29,7 @@
                 <i class="fa-solid fa-c svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Daily Yield</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= @daily_yield.round(3) %> $AKC</p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= @daily_yield[0].round(3) %> $AKC</p>
             </div>
             <div class="progress" style="height: 3px">
               <div class="progress-bar bg-dash-color-2" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
@@ -45,7 +45,7 @@
                 <i class="fa-solid fa-money-bill svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Price in USD</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-3"><%= number_to_currency(@daily_yield * @akc_price) %></p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-3"><%= number_to_currency(@daily_yield[0] * @akc_price) %></p>
             </div>
             <div class="progress" style="height: 3px">
               <div class="progress-bar bg-dash-color-3" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
@@ -77,7 +77,7 @@
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">30 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-1">
-                <%= number_to_currency(@akc_price * (@daily_yield * 30)) %>
+                <%= number_to_currency(@akc_price * (@daily_yield[0] * 30)) %>
               </p>
             </div>
             <div class="progress" style="height: 3px">
@@ -98,7 +98,7 @@
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">60 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-2">
-                <%= number_to_currency(@akc_price * @daily_yield * 60) %>
+                <%= number_to_currency(@akc_price * @daily_yield[0] * 60) %>
               </p>
             </div>
             <div class="progress" style="height: 3px">
@@ -116,7 +116,7 @@
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">90 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-3">
-                <%= number_to_currency(@akc_price * (@daily_yield * 90)) %>
+                <%= number_to_currency(@akc_price * (@daily_yield[0] * 90)) %>
 
               </p>
             </div>
@@ -135,7 +135,28 @@
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">365 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-2">
-                <%= number_to_currency(@akc_price * (@daily_yield * 365)) %>
+                <%= number_to_currency(@akc_price * (@daily_yield[0] * 365)) %>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row gy-4 mt-1">
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-calendar-alt svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Last Claimed on</p>
+              </div>
+              <p class="text-xl lh-1 mb-0 text-dash-color-1">
+                <%= @last_claimed_days %> days ago (<%= @last_claimed.claimed.strftime('%m/%d/%Y') %>)
+              </p>
+              <p class="text-xxl-start lh-1 mb-0 text-dash-color-1">
+                <%= link_to 'Edit', edit_claim_path(@last_claimed), class: 'badge rounded-pill bg-primary' %>
+
               </p>
             </div>
           </div>

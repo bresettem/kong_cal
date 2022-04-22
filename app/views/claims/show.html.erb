@@ -1,0 +1,8 @@
+<%= render @claim %>
+
+<div>
+  <%= link_to "Edit this claim", edit_claim_path(@claim) %> |
+  <%= link_to "Back to claims", claims_path %>
+
+  <%= button_to "Destroy this claim", @claim, method: :delete %>
+</div>

@@ -9,6 +9,9 @@ class TribeItemsController < ApplicationController
     @akc_price = get_akc_price
     @last_updated = AlphaCoin.first.last_updated.in_time_zone.strftime("%m/%d/%Y %I:%M %p")
     @tribe_items = TribeItem.all.order(:daily_yield)
+    @last_claimed = Claim.last
+    @last_claimed_days = to_days(@last_claimed)
+
   end
 
   # GET /tribe_items/1 or /tribe_items/1.json

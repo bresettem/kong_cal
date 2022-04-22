@@ -10,7 +10,22 @@ module Shared
         sum += o.daily_yield
       end
     end
-    sum
+    puts "sum: #{sum}"
+    claimed = to_days(Claim.last)
+    calculate_bonus_split(sum, claimed)
+  end
+
+  def get_sum_goal(goal)
+    owned = get_owned
+    raise "Owned is empty" if owned.nil?
+    sum = 0
+    owned.each do |o|
+      o.owned.times do
+        sum += o.daily_yield
+      end
+    end
+    puts "sum: #{sum}"
+    calculate_bonus_goal(sum, goal)
   end
 
   def get_split_daily_yield
@@ -40,6 +55,16 @@ module Shared
 
   def calculate_bonus_goal(daily_yield, index)
     daily_yield + (daily_yield * get_bonus(index))
+  end
+
+  def to_days(last_claimed)
+    (Date.today - last_claimed.claimed).to_i
+  end
+
+  def calculate_bonus_split(daily_yield, index)
+    bonus = get_bonus(index)
+    combined = daily_yield + (daily_yield * bonus)
+    [combined, "#{(bonus * 100).round(0)}%", daily_yield]
   end
 
   private

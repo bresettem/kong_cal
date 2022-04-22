@@ -10,12 +10,14 @@
         <td>Daily Yield</td>
       </tr>
       </thead>
+      <%#= raise "items: #{items}" %>
+      <%#= raise "Items is nil. #{items}" if items.nil? %>
       <% items.each do |item| %>
         <tr>
           <td><%= item[:days] %></td>
-          <td><%= item[:on].strftime('%m/%d/%Y') %></td>
-          <td><%= pluralize(item[:bought], item[:item]) %></td>
-          <td><%= item[:sum].round(3) %></td>
+          <td><%= item[:on].strftime('%m/%d/%Y') unless item[:on].nil? %></td>
+          <td><%= pluralize(item[:bought], item[:item]) unless item[:on].nil? %></td>
+          <td><%= item[:sum].round(3) unless item[:sum].nil? %></td>
           <td><%= item[:daily_yield].round(3) %></td>
         </tr>
       <% end %>

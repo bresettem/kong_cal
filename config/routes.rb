@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :claims
   resources :goals
   resources :tribe_items do
     member do
