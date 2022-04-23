@@ -73,7 +73,7 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-money-bill svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">30 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-1">
@@ -91,7 +91,7 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-dollar-sign svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-money-bill-trend-up svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <i class="fa-solid fa-a svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <i class="fa-solid fa-k svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <i class="fa-solid fa-c svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
@@ -112,7 +112,7 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-money-bill svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-money-bill-1 svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">90 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-3">
@@ -131,7 +131,7 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-clock svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-money-check-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">365 Days</p>
               </div>
               <p class="text-xxl lh-1 mb-0 text-dash-color-2">
@@ -151,13 +151,19 @@
                 <i class="fa-solid fa-calendar-alt svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Last Claimed on</p>
               </div>
-              <p class="text-xl lh-1 mb-0 text-dash-color-1">
-                <%= @last_claimed_days %> days ago (<%= @last_claimed.claimed.strftime('%m/%d/%Y') %>)
-              </p>
-              <p class="text-xxl-start lh-1 mb-0 text-dash-color-1">
-                <%= link_to 'Edit', edit_claim_path(@last_claimed), class: 'badge rounded-pill bg-primary' %>
+              <% if @last_claimed.nil? %>
+                <%= link_to 'Add Last Claimed', new_user_claim_path(@user, @last_claimed), class: 'badge rounded-pill bg-primary' %>
+              <% else %>
+                <p class="text-xl lh-1 mb-0 text-dash-color-1">
+                  <%= @last_claimed_days %> days ago
+                  (<%= @last_claimed.claimed.strftime('%m/%d/%Y') unless @last_claimed.nil? %>)
+                </p>
+                <p class="text-xxl-start lh-1 mb-0 text-dash-color-1">
 
-              </p>
+                  <%= link_to 'Edit', edit_claim_path(@last_claimed), class: 'badge rounded-pill bg-primary' %>
+                </p>
+              <% end %>
+
             </div>
           </div>
         </div>

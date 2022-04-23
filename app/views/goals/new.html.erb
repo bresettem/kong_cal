@@ -1,9 +1,11 @@
 <h1>New goal</h1>
 
-<%= render "form", goal: @goal %>
+<%= form_with(model: [@user, @goal]) do |form| %>
+  <%= render "form", goal: @goal, form: form %>
+<% end %>
 
 <br>
 
 <div>
-  <%= link_to "Back to goals", goals_path %>
+  <%= link_to "Back to goals", user_goals_path(@user) %>
 </div>

@@ -6,10 +6,10 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-medal svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Goal</p>
+                <i class="fa-solid fa-info-circle svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Info</p>
               </div>
-              <%= link_to "Back to goals", goals_path, class: 'badge rounded-pill bg-success' %>
+              <%= link_to "Back to goals", user_goals_path(@user), class: 'badge rounded-pill bg-success' %>
               <%= link_to "Edit Goal", edit_goal_path(@goal), class: 'badge rounded-pill bg-info' %>
               <%= button_to "Destroy this goal", @goal, class: 'badge rounded-pill bg-danger', method: :delete %>
             </div>
@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-coins svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Unclaimed Coins</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-1"><%= @unclaimed_coins %></p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1"><%= number_with_delimiter(@unclaimed_coins) %></p>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@
                 <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Price</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-1">$<%= @akc_price.round(5) %></p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1">$<%= number_with_delimiter(@akc_price.round(5)) %></p>
             </div>
           </div>
         </div>
@@ -57,7 +57,8 @@
                 <i class="fa-solid fa-c svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Daily Yield</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= @daily_yield[0].round(3) %> $AKC</p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= number_with_delimiter(@daily_yield[0].round(3)) %>
+                $AKC</p>
             </div>
           </div>
         </div>
@@ -67,10 +68,10 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-money-bill svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-medal svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Goal</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-3"><%= @set_goal %></p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-3"><%= number_with_delimiter(@set_goal) %></p>
             </div>
           </div>
         </div>
@@ -83,7 +84,7 @@
                 <i class="fa-solid fa-clock svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Days Since Claimed</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= @num_days %></p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= number_with_delimiter(@num_days) %></p>
             </div>
           </div>
         </div>
@@ -98,36 +99,17 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-warehouse svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Buying Tribes</p>
               </div>
               <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= @buy_tribes[0] %> days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@buy_tribes[0]) %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= @buy_tribes[1].round(2) %></span>
-                <span class="badge rounded-pill bg-success m-1"><%= convert_to_usd(@buy_tribes[1], @akc_price) %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@buy_tribes[2].round(2), @akc_price) %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= @buy_tribes[2].round(2) %> $AKC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="card mb-0">
-          <div class="card-body">
-            <div class="d-flex align-items-end justify-content-between mb-2">
-              <div class="me-2">
-                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Mini Starships only</p>
-              </div>
-              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= @only_mini_starship[0] %> days</span>
-                <span class="badge rounded-pill bg-danger"><%= format_date(@only_mini_starship[0]) %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= @only_mini_starship[1].round(2) %></span>
-                <span class="badge rounded-pill bg-success m-1"><%= convert_to_usd(@only_mini_starship[1], @akc_price) %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@only_mini_starship[2].round(2), @akc_price) %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= @only_mini_starship[2].round(2) %>
+                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@buy_tribes[0]) unless @buy_tribes.nil? %>
+                  days</span>
+                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@buy_tribes[0]) unless @buy_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@buy_tribes[1].round(2)) unless @buy_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@buy_tribes[1], @akc_price) unless @buy_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@buy_tribes[2].round(2), @akc_price) unless @buy_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@buy_tribes[2].round(2)) unless @buy_tribes.nil? %>
                   $AKC</span>
               </div>
             </div>
@@ -139,16 +121,18 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Only Mini Labs</p>
+                <i class="fa-solid fa-rocket svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Only Mini Starships</p>
               </div>
               <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= @only_mini_lab[0] %> days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@only_mini_lab[0]) %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= @only_mini_lab[1].round(2) %></span>
-                <span class="badge rounded-pill bg-success m-1"><%= convert_to_usd(@only_mini_lab[1], @akc_price) %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@only_mini_lab[2].round(2), @akc_price) %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= @only_mini_lab[2].round(2) %> $AKC</span>
+                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@only_mini_starship[0]) unless @only_mini_starship.nil? %>
+                  days</span>
+                <span class="badge rounded-pill bg-danger"><%= format_date(@only_mini_starship[0]) unless @only_mini_starship.nil? %></span>
+                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@only_mini_starship[1].round(2)) unless @only_mini_starship.nil? %></span>
+                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@only_mini_starship[1], @akc_price) unless @only_mini_starship.nil? %></span>
+                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@only_mini_starship[2].round(2), @akc_price) unless @only_mini_starship.nil? %></span>
+                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@only_mini_starship[2].round(2)) unless @only_mini_starship.nil? %>
+                  $AKC</span>
               </div>
             </div>
           </div>
@@ -159,16 +143,40 @@
           <div class="card-body">
             <div class="d-flex align-items-end justify-content-between mb-2">
               <div class="me-2">
-                <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <i class="fa-solid fa-flask svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Only Mini Labs</p>
+              </div>
+              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
+                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@only_mini_lab[0]) unless @only_mini_lab.nil? %>
+                  days</span>
+                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@only_mini_lab[0]) unless @only_mini_lab.nil? %></span>
+                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@only_mini_lab[1].round(2)) unless @only_mini_lab.nil? %></span>
+                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@only_mini_lab[1], @akc_price) unless @only_mini_lab.nil? %></span>
+                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@only_mini_lab[2].round(2), @akc_price) unless @only_mini_lab.nil? %></span>
+                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@only_mini_lab[2].round(2)) unless @only_mini_lab.nil? %>
+                  $AKC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-circle svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">No Tribes</p>
               </div>
               <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= @no_tribes[0] %> days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@no_tribes[0]) %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= @no_tribes[1].round(2) %></span>
-                <span class="badge rounded-pill bg-success m-1">$<%= convert_to_usd(@no_tribes[1], @akc_price) %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@no_tribes[2].round(2), @akc_price) %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= @no_tribes[2].round(2) %> $AKC</span>
+                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@no_tribes[0]) unless @no_tribes.nil? %>
+                  days</span>
+                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@no_tribes[0]) unless @no_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@no_tribes[1].round(2)) unless @no_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@no_tribes[1], @akc_price) unless @no_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@no_tribes[2].round(2), @akc_price) unless @no_tribes.nil? %></span>
+                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@no_tribes[2].round(2)) unless @no_tribes.nil? %>
+                  $AKC</span>
               </div>
             </div>
           </div>
@@ -176,29 +184,29 @@
       </div>
     </div>
   </div>
-  <div class="container-fluid">
+  <div class="container-fluid mt-3">
     <div class="accordion" id="accordionExample">
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingOne">
           <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            Buying All Tribes Mini Starship and Higher
+            All Tribes Mini Starship and Higher
           </button>
         </h2>
         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <%= render 'goals/items', items: @buy_tribes[3] %>
+            <%= render 'goals/items', items: @buy_tribes[3] unless @buy_tribes.nil? %>
           </div>
         </div>
       </div>
       <div class="accordion-item">
         <h2 class="accordion-header" id="headingTwo">
           <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Buying only Mini Starships
+            Only Mini Starships
           </button>
         </h2>
         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <%= render 'goals/items', items: @only_mini_starship[3] %>
+            <%= render 'goals/items', items: @only_mini_starship[3] unless @only_mini_starship.nil? %>
           </div>
         </div>
       </div>
@@ -210,7 +218,7 @@
         </h2>
         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <%= render 'goals/items', items: @only_mini_lab[3] %>
+            <%= render 'goals/items', items: @only_mini_lab[3] unless @only_mini_lab.nil? %>
           </div>
         </div>
       </div>
@@ -222,7 +230,7 @@
         </h2>
         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
           <div class="accordion-body">
-            <%= render 'goals/items', items: @no_tribes[3] %>
+            <%= render 'goals/items', items: @no_tribes[3] unless @no_tribes.nil? %>
           </div>
         </div>
       </div>

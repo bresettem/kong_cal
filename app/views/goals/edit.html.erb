@@ -1,10 +1,12 @@
 <h1>Editing goal</h1>
 
-<%= render "form", goal: @goal %>
+<%= form_with(model: [@goal]) do |form| %>
+  <%= render "form", goal: @goal, form: form %>
+<% end %>
 
 <br>
 
 <div>
   <%= link_to "Show this goal", @goal %> |
-  <%= link_to "Back to goals", goals_path %>
+  <%= link_to "Back to goals", user_goals_path(@user) %>
 </div>

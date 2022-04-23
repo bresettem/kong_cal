@@ -11,13 +11,37 @@
         </button>
       </div>
       <ul class="list-inline mb-0">
-        <li class="list-inline-item logout px-lg-2">
-          <a class="nav-link text-sm text-reset px-1 px-lg-0" id="logout" href="login.html">
-            <span class="d-none d-sm-inline-block">Logout </span>
-            <svg class="svg-icon svg-icon-xs svg-icon-heavy">
-              <use xlink:href="#disable-1"></use>
-            </svg>
-          </a></li>
+        <% if user_signed_in? %>
+          <li class="list-inline-item edit px-lg-2">
+            <%= link_to edit_user_registration_path class: 'nav-link' do %>
+            <span class="">
+             <i class="fa-solid fa-edit"></i> Edit Profile
+            </span>
+              </li>
+            <% end %>
+            <li class="list-inline-item logout px-lg-2">
+              <%= button_to destroy_user_session_path, method: :delete, class: 'nav-link btn btn-primary', data: { turbo: false } do %>
+            <span class="">
+             <i class="fa-solid fa-sign-out"></i> Logout
+            </span>
+              <% end %>
+            </li>
+        <% else %>
+          <li class="list-inline-item logout px-lg-2">
+            <%= link_to new_user_registration_path, class: 'nav-link text-sm text-reset px-1 px-lg-0' do %>
+            <span class="d-none d-sm-inline-block">
+             <i class="fa-solid fa-sign-in svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Sign Up
+            </span>
+            <% end %>
+          </li>
+          <li class="list-inline-item logout px-lg-2">
+            <%= link_to new_user_session_path, class: 'nav-link text-sm text-reset px-1 px-lg-0' do %>
+            <span class="d-none d-sm-inline-block">
+             <i class="fa-solid fa-sign-in-alt svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Login
+            </span>
+            <% end %>
+          </li>
+        <% end %>
       </ul>
     </div>
   </nav>

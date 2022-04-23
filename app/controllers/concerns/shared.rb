@@ -1,23 +1,32 @@
 module Shared
+  require 'net/http'
   extend ActiveSupport::Concern
 
   def get_sum
     owned = get_owned
-    raise "Owned is empty" if owned.nil?
+    puts "owned: #{owned.empty?}"
+    return 0 if owned.empty?
     sum = 0
     owned.each do |o|
       o.owned.times do
         sum += o.daily_yield
       end
     end
+    return 0 if sum === 0
     puts "sum: #{sum}"
-    claimed = to_days(Claim.last)
+    find_claim = @user.claim
+    user_claim = if find_claim.empty?
+                   0
+                 else
+                   @user.claim.last
+                 end
+    claimed = to_days(user_claim)
     calculate_bonus_split(sum, claimed)
   end
 
   def get_sum_goal(goal)
     owned = get_owned
-    raise "Owned is empty" if owned.nil?
+    return 0 if owned.empty?
     sum = 0
     owned.each do |o|
       o.owned.times do
@@ -30,7 +39,8 @@ module Shared
 
   def get_split_daily_yield
     owned = get_owned
-    raise "Owned is empty" if owned.nil?
+    return 0 if owned.empty?
+
     split = []
     owned.each do |o|
       sum = 0
@@ -50,7 +60,7 @@ module Shared
   end
 
   def get_owned
-    TribeItem.where("owned >= ?", 1)
+    @user.tribe_items.where("owned >= ?", 1)
   end
 
   def calculate_bonus_goal(daily_yield, index)
@@ -58,6 +68,7 @@ module Shared
   end
 
   def to_days(last_claimed)
+    return 0 if last_claimed === 0
     (Date.today - last_claimed.claimed).to_i
   end
 
@@ -65,6 +76,36 @@ module Shared
     bonus = get_bonus(index)
     combined = daily_yield + (daily_yield * bonus)
     [combined, "#{(bonus * 100).round(0)}%", daily_yield]
+  end
+
+  def update_shared_alpha_coin
+    source = 'https://api.coinpaprika.com/v1/tickers/akc-alpha-coins'
+    resp = Net::HTTP.get_response(URI.parse(source))
+    data = resp.body
+    result = JSON.parse(data)
+    AlphaCoin.upsert({
+                       name: result['name'],
+                       symbol: result['symbol'],
+                       last_updated: result['last_updated'],
+                       price: result['quotes']['USD']['price'],
+                       volume_24h: result['quotes']['USD']['volume_24h'],
+                       volume_24h_change_24h: result['quotes']['USD']['volume_24h_change_24h'],
+                       market_cap: result['quotes']['USD']['market_cap'],
+                       percent_change_15m: result['quotes']['USD']['percent_change_15m'],
+                       percent_change_30m: result['quotes']['USD']['percent_change_30m'],
+                       percent_change_1h: result['quotes']['USD']['percent_change_1h'],
+                       percent_change_6h: result['quotes']['USD']['percent_change_6h'],
+                       percent_change_12h: result['quotes']['USD']['percent_change_12h'],
+                       percent_change_24h: result['quotes']['USD']['percent_change_24h'],
+                       percent_change_7d: result['quotes']['USD']['percent_change_7d'],
+                       percent_change_30d: result['quotes']['USD']['percent_change_30d'],
+                       percent_change_1y: result['quotes']['USD']['percent_change_1y'],
+                       ath_price: result['quotes']['USD']['ath_price'],
+                       ath_date: result['quotes']['USD']['ath_date'],
+                       percent_from_price_ath: result['quotes']['USD']['percent_from_price_ath'],
+                     }, unique_by: %i[ name symbol ]
+    )
+    puts "Updated AlphaCoin at #{Time.now}"
   end
 
   private

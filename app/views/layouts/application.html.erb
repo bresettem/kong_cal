@@ -25,14 +25,19 @@
 </head>
 
 <body>
-<%= render 'layouts/header' %>
-<div class="d-flex align-items-stretch">
-  <%= render 'layouts/sidebar' %>
-  <div class="page-content">
-    <%= render 'layouts/notices' %>
-    <%= yield %>
-    <%= render 'layouts/footer' %>
-  </div>
+<%= puts "controlled_name: #{controller_name}" %>
+<% if controller_name === 'landing' || devise_controller? %>
+  <%= yield %>
+<% else %>
+  <%= render 'layouts/header' %>
+  <div class="d-flex align-items-stretch">
+    <%= render 'layouts/sidebar' %>
+    <div class="page-content">
+      <%= render 'layouts/notices' %>
+      <%= yield %>
+      <%= render 'layouts/footer' %>
+    </div>
+<% end %>
 </div>
 </body>
 </html>

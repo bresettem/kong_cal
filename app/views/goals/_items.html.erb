@@ -11,7 +11,7 @@
       </tr>
       </thead>
       <%#= raise "items: #{items}" %>
-      <%#= raise "Items is nil. #{items}" if items.nil? %>
+      <%= raise "Items is nil. #{items}" if items.nil? %>
       <% items.each do |item| %>
         <tr>
           <td><%= item[:days] %></td>

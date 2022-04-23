@@ -1,4 +1,6 @@
 class TribeItemsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user
   include Shared
   before_action :set_tribe_item, only: %i[ show edit update destroy ]
   before_action :set_price
@@ -8,9 +10,9 @@ class TribeItemsController < ApplicationController
   def index
     @akc_price = get_akc_price
     @last_updated = AlphaCoin.first.last_updated.in_time_zone.strftime("%m/%d/%Y %I:%M %p")
-    @tribe_items = TribeItem.all.order(:daily_yield)
-    @last_claimed = Claim.last
-    @last_claimed_days = to_days(@last_claimed)
+    @tribe_items = @user.tribe_items.all.order(:daily_yield)
+    @last_claimed = @user.claim.last unless @user.claim.nil?
+    @last_claimed_days = to_days(@last_claimed) unless @last_claimed.nil?
 
   end
 
@@ -20,7 +22,7 @@ class TribeItemsController < ApplicationController
 
   # GET /tribe_items/new
   def new
-    @tribe_item = TribeItem.new
+    @tribe_item = @user.tribe_items.build
   end
 
   # GET /tribe_items/1/edit
@@ -29,7 +31,7 @@ class TribeItemsController < ApplicationController
 
   # POST /tribe_items or /tribe_items.json
   def create
-    @tribe_item = TribeItem.new(tribe_item_params)
+    @tribe_item = @user.tribe_items.build(tribe_item_params)
 
     respond_to do |format|
       if @tribe_item.save
@@ -66,7 +68,7 @@ class TribeItemsController < ApplicationController
   end
 
   def individual_item
-    @item = TribeItem.find(params[:id])
+    @item = @user.tribe_items.find(params[:id])
   end
 
   def total_tribes
@@ -79,9 +81,13 @@ class TribeItemsController < ApplicationController
 
   private
 
+    def set_user
+      @user = User.find(current_user.id)
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_tribe_item
-      @tribe_item = TribeItem.find(params[:id])
+      @tribe_item = @user.tribe_items.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
@@ -90,7 +96,12 @@ class TribeItemsController < ApplicationController
     end
 
     def set_price
-      @akc_price = AlphaCoin.first.price
+      price = AlphaCoin.first
+      if price.nil?
+        update_shared_alpha_coin
+      else
+        @akc_price = price.price
+      end
     end
 
     def daily_yield?

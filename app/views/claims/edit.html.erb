@@ -1,10 +1,11 @@
 <h1>Editing claim</h1>
-
-<%= render "form", claim: @claim %>
+<%= form_with(model: [@claim]) do |form| %>
+  <%= render "form", claim: @claim, form: form %>
+<% end %>
 
 <br>
 
 <div>
   <%= link_to "Show this claim", @claim %> |
-  <%= link_to "Back to claims", claims_path %>
+  <%= link_to "Back to claims", user_claims_path(@user) %>
 </div>

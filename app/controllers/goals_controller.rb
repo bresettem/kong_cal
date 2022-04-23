@@ -1,4 +1,6 @@
 class GoalsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user
   include Shared
   before_action :set_goal, only: %i[ show edit update destroy ]
   before_action :set_owned
@@ -7,28 +9,39 @@ class GoalsController < ApplicationController
   before_action :split_daily_yield?
   # GET /goals or /goals.json
   def index
-    @goals = Goal.all
+    @goals = @user.goals
   end
 
   # GET /goals/1 or /goals/1.json
   def show
-    id = Goal.find(params[:id])
+    id = @user.goals.find(params[:id])
     @set_goal = id.goal
     @akc_price = akc_price?
     @unclaimed_coins = id.unclaimed_coins
-    @num_days = (Time.now.to_date - Goal.first.started_on.to_date).to_i
+    @num_days = (Time.now.to_date - @user.goals.last.started_on.to_date).to_i
+    @errors = Set.new
     @buy_tribes = buy_tribes(@unclaimed_coins, @set_goal)
     @no_tribes = no_tribes(@unclaimed_coins, @set_goal)
     @only_mini_starship = only_mini_starship(@unclaimed_coins, @set_goal)
     @only_mini_lab = only_mini_lab(@unclaimed_coins, @set_goal)
-    # @no_tribes = calculate_days(@unclaimed_coins, @set_goal, @num_days, true, false, false, false, @buy_tribes[0])
-    # @only_mini_starship = calculate_days(@unclaimed_coins, @set_goal, @num_days, false, false, true, false, @buy_tribes[0])
-    # @only_mini_lab = calculate_days(@unclaimed_coins, @set_goal, @num_days, false, false, false, true, @buy_tribes[0])
+
+    if @errors.present?
+      string = ''
+      @errors.each do |k|
+        string += "#{k}"
+      end
+      redirect_to user_goals_path(@user), alert: string
+    end
+    # @only_mini_lab = nil
+    # @buy_tribes = nil
+    # @only_mini_starship = nil
+    # @no_tribes = nil
+
   end
 
   # GET /goals/new
   def new
-    @goal = Goal.new
+    @goal = @user.goals.build
   end
 
   # GET /goals/1/edit
@@ -37,7 +50,7 @@ class GoalsController < ApplicationController
 
   # POST /goals or /goals.json
   def create
-    @goal = Goal.new(goal_params)
+    @goal = @user.goals.build(goal_params)
 
     respond_to do |format|
       if @goal.save
@@ -68,7 +81,7 @@ class GoalsController < ApplicationController
     @goal.destroy
 
     respond_to do |format|
-      format.html { redirect_to goals_url, notice: "Goal was successfully destroyed." }
+      format.html { redirect_to user_goals_path(@user), notice: "Goal was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -81,7 +94,11 @@ class GoalsController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_goal
-      @goal = Goal.find(params[:id])
+      @goal = @user.goals.find(params[:id])
+    end
+
+    def set_user
+      @user = User.find(current_user.id)
     end
 
     # Only allow a list of trusted parameters through.
@@ -95,97 +112,6 @@ class GoalsController < ApplicationController
     ARENA_PRICE = 800
     MINI_LAB_PRICE = 10
     MINI_STAR_SHIP_PRICE = 50
-
-    def calculate_days(unclaimed_coins, goal, num_days, no_tribes, buy_tribes, only_mini_starship, only_mini_lab, days)
-      raise "Unclaimed coins is empty." if unclaimed_coins.nil?
-
-      sum = unclaimed_coins
-
-      lab_arr = []
-      starship_arr = []
-      city_arr = []
-      arena_arr = []
-      minilab_arr = []
-      ministarship_arr = []
-      daily_yield = get_sum[0]
-      total_mini_labs = 0
-      total_mini_starships = 0
-      total = 0
-      # puts "No tribes: #{no_tribes}. Buy_tribes: #{buy_tribes}. Only_mini_starship: #{only_mini_starship}.
-      # only_mini_lab: #{only_mini_lab}"
-      raise "Daily yield is empty." if daily_yield.nil?
-      1.upto(goal) do |index|
-        if total >= 2
-          lab_price = calculate_discount(LAB_PRICE, total)
-          starship_price = calculate_discount(STARSHIP_PRICE, total)
-          city_price = calculate_discount(CITY_PRICE, total)
-          arena_price = calculate_discount(ARENA_PRICE, total)
-          mini_lab_price = calculate_discount(MINI_LAB_PRICE, total)
-          min_star_ship_price = calculate_discount(MINI_STAR_SHIP_PRICE, total)
-        else
-          lab_price = 100
-          starship_price = 200
-          city_price = 400
-          arena_price = 800
-          mini_lab_price = 10
-          min_star_ship_price = 50
-        end
-        raise 'Lab price is 0.' if lab_price === 0
-        if (!(lab_price === LAB_PRICE || lab_price === 98.0) && true) && (total == 2)
-          raise "Lab price discount is incorrect. It should be 100 or 98.0, but got #{lab_price} "
-        end
-        if (!(arena_price === ARENA_PRICE || arena_price === 736.0) && true) && (total == 10)
-          raise "Arena price discount is incorrect. It should be 800 or 736.0, but got #{arena_price} "
-        end
-        if (!(min_star_ship_price === MINI_STAR_SHIP_PRICE || min_star_ship_price === 40) && true) && (total == 58)
-          raise "Mini starship price discount is incorrect. It should be 50 or 40.0, but got #{min_star_ship_price} "
-        end
-
-        sum += daily_yield
-        # puts "index: #{index}. sum: #{sum}"
-        # sum += calculate_bonus_goal(daily_yield, index)
-        if no_tribes === true
-          # return [index, calculate_bonus_goal(daily_yield, index), sum] if goal < sum || (index >= days)
-          return [index, calculate_bonus_goal(daily_yield, index), sum] if goal < sum
-        end
-        next if no_tribes === true
-        if (sum > mini_lab_price) && (only_mini_lab === true)
-          count = 0
-          # puts "total: #{total}. mini_lab_price: #{mini_lab_price}"
-          # return [index, calculate_bonus_goal(daily_yield, index), sum] if (goal < sum) || (index >= days)
-          if goal < sum
-            minilab_arr << {
-              days: index,
-              on: Time.now + index.days,
-              bought: count,
-              item: 'Mini Lab',
-              sum: sum,
-              daily_yield: daily_yield
-            }
-            return [index, calculate_bonus_goal(daily_yield, index), sum, minilab_arr]
-          end
-          while sum >= mini_lab_price
-            sum -= mini_lab_price
-            daily_yield += calculate_bonus_goal(0.15, index)
-            count += 1
-            # puts "#{index} Bought mini lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
-          end
-          total_mini_labs += count
-          total += count
-          minilab_arr << {
-            days: index,
-            on: Time.now + index.days,
-            bought: count,
-            item: 'Mini Lab',
-            sum: sum,
-            daily_yield: daily_yield
-          }
-          puts "Total: #{total_mini_labs}. Bought #{count} only mini lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
-          next
-        end
-
-      end
-    end
 
     def get_prices(total)
       if total >= 2
@@ -213,9 +139,10 @@ class GoalsController < ApplicationController
     def no_tribes(unclaimed_coins, goal)
       sum = unclaimed_coins
       daily_yield = get_sum[0]
-      raise "Daily yield is empty." if daily_yield.nil?
+      return @errors << "Please add Tribe Items before continuing" if daily_yield === 0
       no_tribes_arr = []
-      1.upto(goal) do |index|
+      index = 1
+      while goal > sum
         sum += daily_yield
         no_tribes_arr << {
           days: index,
@@ -225,21 +152,26 @@ class GoalsController < ApplicationController
           sum: sum,
           daily_yield: calculate_bonus_goal(daily_yield, index)
         }
-        return [index, daily_yield, sum, no_tribes_arr] if goal < sum
+        # raise "goal: #{no_tribes_arr}"
+        # puts "no_tribes_arr: #{no_tribes_arr}"
+        index += 1
       end
+      [index, daily_yield, sum, no_tribes_arr]
     end
 
     def only_mini_starship(unclaimed_coins, goal)
       sum = unclaimed_coins
       daily_yield = get_sum[0]
       total_mini_starships = 0
-      raise "Daily yield is empty." if daily_yield.nil?
+      return @errors << "Please add Tribe Items before continuing" if daily_yield === 0
       only_mini_starship_arr = []
       total = 0
       days = 0
       max_days = 1
-      1.upto(goal) do |index|
-        days += 1
+      index = 1
+      while goal > sum
+
+        # days += 1
         sum += daily_yield
         # only_mini_starship_arr << {
         #   days: index,
@@ -256,7 +188,7 @@ class GoalsController < ApplicationController
         #   days = 0
         # end
 
-        puts "days: #{days}"
+        # puts "days: #{days}"
         prices = get_prices(index)
 
         count = 0
@@ -273,12 +205,14 @@ class GoalsController < ApplicationController
           }
           return [index, daily_yield, sum, only_mini_starship_arr]
         end
+        # raise "#{sum } > #{prices[:min_star_ship_price]}"
         while sum > prices[:min_star_ship_price]
           sum -= prices[:min_star_ship_price]
           daily_yield += calculate_bonus_goal(1, index)
           count += 1
           # puts "#{index} Bought mini starship on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
         end
+        index += 1
         next if count === 0
         total_mini_starships += count
         total += count
@@ -290,22 +224,22 @@ class GoalsController < ApplicationController
           sum: sum,
           daily_yield: daily_yield
         }
-
         puts "Total: #{total_mini_starships}. Bought #{count} mini starships on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
-        return [index, daily_yield, sum, only_mini_starship_arr] if goal < sum
       end
+      [index, daily_yield, sum, only_mini_starship_arr]
     end
 
     def only_mini_lab(unclaimed_coins, goal)
       sum = unclaimed_coins
       daily_yield = get_sum[0]
       total_mini_lab = 0
-      raise "Daily yield is empty." if daily_yield.nil?
+      return @errors << "Please add Tribe Items before continuing" if daily_yield === 0
       only_mini_lab_arr = []
       total = 0
       days = 0
       max_days = 14
-      1.upto(goal) do |index|
+      index = 1
+      while goal > sum
         sum += daily_yield
         # days += 1
         # if days < max_days
@@ -349,10 +283,11 @@ class GoalsController < ApplicationController
           sum: sum,
           daily_yield: daily_yield
         }
-
+        index += 1
         puts "Total: #{total_mini_lab}. Bought #{count} mini lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
-        return [index, daily_yield, sum, only_mini_lab_arr] if goal < sum
       end
+      [index, daily_yield, sum, only_mini_lab_arr]
+
     end
 
     def buy_tribes(unclaimed_coins, goal)
@@ -365,10 +300,11 @@ class GoalsController < ApplicationController
       arena = false
       daily_yield = get_sum[0]
       max_days = 14
-      raise "Daily yield is empty." if daily_yield.nil?
+      return @errors << "Please add Tribe Items before continuing" if daily_yield === 0
       days = 0
       total = 0
-      1.upto(goal) do |index|
+      index = 1
+      while goal > sum
         prices = get_prices(index)
         sum += daily_yield
         # days += 1
@@ -378,7 +314,6 @@ class GoalsController < ApplicationController
         # if days === max_days
         #   days = 0
         # end
-        mini_starship = true
         if (sum > prices[:min_star_ship_price]) && (mini_starship === false)
           if goal < sum
             buy_tribes_arr << {
@@ -522,8 +457,9 @@ class GoalsController < ApplicationController
           puts "#{index} Total Arena: #{total_arena}. Bought arena on #{Time.now + index.days}"
           # puts "buy_tribes_arr: #{buy_tribes_arr}"
         end
-        return [index, daily_yield, sum, buy_tribes_arr] if goal < sum
+        index += 1
       end
+      [index, daily_yield, sum, buy_tribes_arr]
     end
 
     def calc_days(days) end

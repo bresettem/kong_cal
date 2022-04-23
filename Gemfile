@@ -76,3 +76,4 @@ end
 gem 'figaro'
 gem 'whenever', require: false
 gem 'kaminari'
+gem "devise", "~> 4.8"

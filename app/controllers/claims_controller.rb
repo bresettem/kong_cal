@@ -1,9 +1,10 @@
 class ClaimsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :set_user
   before_action :set_claim, only: %i[ show edit update destroy ]
-
   # GET /claims or /claims.json
   def index
-    @claims = Claim.all
+    @claims = @user.claim
   end
 
   # GET /claims/1 or /claims/1.json
@@ -21,7 +22,7 @@ class ClaimsController < ApplicationController
 
   # POST /claims or /claims.json
   def create
-    @claim = Claim.new(claim_params)
+    @claim = @user.claim.build(claim_params)
 
     respond_to do |format|
       if @claim.save
@@ -58,9 +59,14 @@ class ClaimsController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_claim
-      @claim = Claim.find(params[:id])
+      @claim = @user.claim.find(params[:id])
+    end
+
+    def set_user
+      @user = User.find(current_user.id)
     end
 
     # Only allow a list of trusted parameters through.

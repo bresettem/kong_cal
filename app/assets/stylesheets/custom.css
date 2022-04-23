@@ -5,3 +5,9 @@
 .card-body {
     padding: 1rem;
 }
+
+.logout .btn-primary {
+    color: #fff;
+    background-color: purple;
+    border-color: purple;
+}
