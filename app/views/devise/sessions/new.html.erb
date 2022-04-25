@@ -9,6 +9,7 @@
             <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
               <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'login-form py-5 w-100') do |f| %>
                 <h1 class="text-white">Sign In</h1>
+                <%= render 'layouts/notices' %>
                 <div class="form-floating mb-3">
                   <%= f.text_field :email, class: 'form-control input-material', id: 'floatingEmail', name: 'loginUsername', placeholder: 'Email', autofocus: true, required: true %>
                   <%= f.label :email, for: 'floatingEmail', class: 'label-material' %>
