@@ -10,10 +10,7 @@
                 <i class="fa-solid fa-sack-dollar svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Price</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-1">$<%= @akc_price.round(5) %></p>
-            </div>
-            <div class="progress" style="height: 3px">
-              <div class="progress-bar bg-dash-color-1" role="progressbar" style="width: <%= @akc_price * 10 %>%" aria-valuenow="<%= @akc_price * 10 %>" aria-valuemin="0" aria-valuemax="100"></div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1">$<%= number_with_delimiter(@akc_price.round(5)) %></p>
             </div>
           </div>
         </div>
@@ -29,7 +26,8 @@
                 <i class="fa-solid fa-c svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
                 <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Daily Yield</p>
               </div>
-              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= @daily_yield[0].round(3) %> $AKC</p>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-2"><%= number_with_delimiter(@daily_yield[0].round(3)) %>
+                $AKC</p>
             </div>
             <div class="progress" style="height: 3px">
               <div class="progress-bar bg-dash-color-2" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
@@ -79,9 +77,6 @@
               <p class="text-xxl lh-1 mb-0 text-dash-color-1">
                 <%= number_to_currency(@akc_price * (@daily_yield[0] * 30)) %>
               </p>
-            </div>
-            <div class="progress" style="height: 3px">
-              <div class="progress-bar bg-dash-color-1" role="progressbar" style="width: <%= @akc_price * 10 %>%" aria-valuenow="<%= @akc_price * 10 %>" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
           </div>
         </div>
@@ -155,7 +150,7 @@
                 <%= link_to 'Add Last Claimed', new_user_claim_path(@user, @last_claimed), class: 'badge rounded-pill bg-primary' %>
               <% else %>
                 <p class="text-xl lh-1 mb-0 text-dash-color-1">
-                  <%= @last_claimed_days %> days ago
+                  <%= number_with_delimiter(@last_claimed_days) %> days ago
                   (<%= @last_claimed.claimed.strftime('%m/%d/%Y') unless @last_claimed.nil? %>)
                 </p>
                 <p class="text-xxl-start lh-1 mb-0 text-dash-color-1">
@@ -192,7 +187,7 @@
             <td><%= sum_daily_yield(tribe_item.daily_yield, tribe_item.owned) %></td>
             <td><%= tribe_item.price %></td>
             <td><%= number_to_currency(tribe_item.price * @akc_price) %></td>
-            <td><%= tribe_item.owned %></td>
+            <td><%= number_with_delimiter(tribe_item.owned) %></td>
             <td><%= number_to_currency((tribe_item.price * @akc_price) * tribe_item.owned) %></td>
             <td><%= link_to "Edit", edit_tribe_item_path(tribe_item) %></td>
             <td><%= link_to "Show", tribe_item %></td>

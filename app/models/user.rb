@@ -5,7 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :claim, dependent: :destroy
-  has_one :alpha_coin, dependent: :destroy
   has_many :tribe_items, dependent: :destroy
   has_many :goals
 

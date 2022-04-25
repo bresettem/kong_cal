@@ -9,7 +9,7 @@ module TribeItemsHelper
   end
 
   def sum_daily_yield(daily_yield, owned)
-    daily_yield * owned
+    number_with_delimiter((daily_yield * owned).round(2))
   end
 
   def calculate_bonus_tribe(daily_yield, index)

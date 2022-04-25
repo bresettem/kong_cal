@@ -1,41 +1,130 @@
-<ul class="list-inline mb-0">
-  <% if user_signed_in? %>
-    <li class="list-inline-item logout px-lg-2">
-      <%= link_to edit_user_registration_path class: 'nav-link text-sm text-reset px-1 px-lg-0' do %>
-            <span class="d-none d-sm-inline-block">
-             <i class="fa-solid fa-edit svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Edit
-            </span>
-      <% end %>
-    </li>
-
-    <li class="list-inline-item logout px-lg-2">
-      <%= button_to destroy_user_session_path, method: :delete, class: 'nav-link text-sm text-reset px-1 px-lg-0', data: { turbo: false } do %>
-            <span class="d-none d-sm-inline-block">
-             <i class="fa-solid fa-sign-out svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Logout
-            </span>
-      <% end %>
-    </li>
-    <li class="list-inline-item logout px-lg-2 me-3">
-      <%= link_to user_tribe_items_path(@user), class: 'nav-link text-sm text-reset px-1 px-lg-0' do %>
-            <span class="d-none d-sm-inline-block">
-             <i class="fa-solid fa-folder-open svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Tribe Items
-            </span>
-      <% end %>
-    </li>
-  <% else %>
-    <li class="list-inline-item logout px-lg-2">
-      <%= link_to new_user_registration_path, class: 'nav-link text-sm text-reset px-1 px-lg-0' do %>
-            <span class="d-none d-sm-inline-block">
-             <i class="fa-solid fa-sign-in svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Sign Up
-            </span>
-      <% end %>
-    </li>
-    <li class="list-inline-item logout px-lg-2">
-      <%= link_to new_user_session_path, class: 'nav-link text-sm text-reset px-1 px-lg-0' do %>
-            <span class="d-none d-sm-inline-block">
-             <i class="fa-solid fa-sign-in-alt svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i> Login
-            </span>
-      <% end %>
-    </li>
-  <% end %>
-</ul>
+<!-- Header-->
+<header id="header" class="bg-dark py-5">
+  <div class="container px-5">
+    <div class="row gx-5 justify-content-center">
+      <div class="col-lg-6">
+        <div class="text-center my-5">
+          <div id="text" class="con mt-5">
+            <h1 class="display-5 fw-bolder text-white mb-2">An easy way to see current and future profits.</h1>
+            <p class="lead text-white mb-4">A proof of concept to show an <strong>estimated</strong> future
+              profits and goal <strong>estimator</strong>.</p>
+          </div>
+          <% if user_signed_in? %>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+              <%= link_to user_tribe_items_path(current_user.id), class: 'btn btn-primary btn-lg px-4 me-sm-3' do %>
+                <i class="fa-solid fa-arrow-pointer svg-icon-sm svg-icon-heavy"></i> Get Started
+              <% end %>
+            </div>
+          <% else %>
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+              <%= link_to new_user_registration_path, class: 'btn btn-primary btn-lg px-4 me-sm-3' do %>
+                <i class="fa-solid fa-user-plus svg-icon svg-icon-sm svg-icon-heavy"></i> Sign Up
+              <% end %>
+              <%= link_to new_user_session_path, class: 'btn btn-outline-light btn-lg px-4' do %>
+                <i class="fa-solid fa-sign-in svg-icon svg-icon-sm svg-icon-heavy"></i> Login
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Features section-->
+<section class="py-5 border-bottom" id="features">
+  <div class="container px-5 my-5">
+    <div class="row gx-5">
+      <div class="col-lg-4 mb-5 mb-lg-0">
+        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+          <h2 class="h4 fw-bolder"><i class="fa-solid fa-money-bill"></i> $AKC is easy to update.</h2>
+        </div>
+        <p>Updates the $AKC token at the touch of a button</p>
+      </div>
+      <div class="col-lg-4 mb-5 mb-lg-0">
+        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+          <h2 class="h4 fw-bolder"><i class="fa-solid fa-coins"></i> Current Profits</h2>
+        </div>
+        <p>Shows what you are currently making in each tribe item per day as well as per year in $AKC and in USD.</p>
+      </div>
+      <div class="col-lg-4">
+        <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3">
+          <h2 class="h4 fw-bolder"><i class="fa-solid fa-calendar"></i> Want to plan out your purchases?</h2>
+        </div>
+        <p>It is easy to plan out the easiest way to get the next Tribe Item. It even includes the Tribe Item Bonus and
+          the Unclaimed Bonus.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Pricing section-->
+<section class="bg-light py-5 border-bottom">
+  <div class="container px-5 my-5">
+    <div class="text-center mb-5">
+      <h2 class="fw-bolder">Free</h2>
+      <p class="lead mb-0">With our no hassle pricing plans</p>
+    </div>
+    <div class="row gx-5 justify-content-center">
+      <!-- Pricing card free-->
+      <div class="col-lg-6 col-xl-4">
+        <div class="card mb-5 mb-xl-0">
+          <div class="card-body p-5">
+            <div class="small text-uppercase fw-bold text-muted">
+              <i class="bi bi-star-fill text-warning"></i> Free
+            </div>
+            <div class="mb-3">
+              <span class="display-4 fw-bold">$0</span>
+              <span class="text-muted">/ mo.</span>
+            </div>
+            <ul class="list-unstyled mb-4">
+              <li class="mb-2">
+                <i class="bi bi-check text-primary"></i>
+                <strong><i class="fa-solid fa-infinity"></i> Tribe Items</strong>
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check text-primary"></i>
+                <i class="fa-solid fa-infinity"></i> Goals
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check text-primary"></i>
+                View Itemized for an entire <strong>year</strong> for each Tribe Item
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check text-primary"></i>
+                View current $AKC Price
+              </li>
+              <li class="mb-2">
+                <i class="bi bi-check text-primary"></i>
+                View Daily Yield in $AKC and in USD
+              </li>
+              <li class="dropdown-divider"></li>
+              <li class="mb-2 text-muted">
+                <i class="bi bi-x"></i>
+                No Support
+              </li>
+              <li class="mb-2 text-muted">
+                <i class="bi bi-x"></i>
+                Does NOT connect to MetaMask
+              </li>
+            </ul>
+            <% if user_signed_in? %>
+              <div class="d-grid">
+                <%= link_to user_tribe_items_path(current_user.id), class: 'btn btn-outline-primary' do %>
+                  <i class="fa-solid fa-arrow-pointer svg-icon-sm svg-icon-heavy"></i> Get Started
+                <% end %>
+              </div>
+            <% else %>
+              <div class="d-grid">
+                <%= link_to new_user_registration_path, class: 'btn btn-outline-primary' do %>
+                  <i class="fa-solid fa-user-plus svg-icon svg-icon-sm svg-icon-heavy"></i> Sign Up
+                <% end %>
+                <%= link_to new_user_session_path, class: 'btn btn-outline-light mt-3' do %>
+                  <i class="fa-solid fa-sign-in svg-icon svg-icon-sm svg-icon-heavy"></i> Login
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
