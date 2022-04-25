@@ -10,7 +10,7 @@
               <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'login-form py-5 w-100') do |f| %>
                 <h1 class="text-white">Sign In</h1>
                 <div class="form-floating mb-3">
-                  <%= f.password_field :email, class: 'form-control input-material', id: 'floatingEmail', name: 'loginUsername', placeholder: 'Email', autofocus: true, required: true %>
+                  <%= f.text_field :email, class: 'form-control input-material', id: 'floatingEmail', name: 'loginUsername', placeholder: 'Email', autofocus: true, required: true %>
                   <%= f.label :email, for: 'floatingEmail', class: 'label-material' %>
                 </div>
 
@@ -26,8 +26,6 @@
                 <% end %>
 
                 <div class="actions">
-                  <!--                  <button class="btn btn-primary mb-3" id="login" type="submit">Login</button>-->
-                  <!--                  <a class="text-sm text-paleBlue" href="#">Forgot Password?</a><br><small class="text-gray-500">Do not have an account? </small><a class="text-sm text-paleBlue" href="register.html">Signup</a>-->
                   <%= f.submit "Log in", class: 'btn btn-primary mb-3', data: { turbo: false } %>
                 </div>
                 <%= render "devise/shared/links" %>

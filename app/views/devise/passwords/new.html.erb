@@ -11,7 +11,7 @@
                 <%= render "devise/shared/error_messages", resource: resource %>
                 <h2 class="text-white">Forgot your password?</h2>
                 <div class="form-floating mb-3">
-                  <%= f.password_field :email, class: 'form-control input-material', id: 'floatingEmail', name: 'loginUsername', placeholder: 'Email', autofocus: true, required: true %>
+                  <%= f.text_field :email, class: 'form-control input-material', id: 'floatingEmail', name: 'loginUsername', placeholder: 'Email', autofocus: true, required: true %>
                   <%= f.label :email, for: 'floatingEmail', class: 'label-material' %>
                 </div>
 
