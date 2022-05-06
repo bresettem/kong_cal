@@ -5,13 +5,9 @@
   <meta name="description" content="Alpha Kong Club Profit Estimator">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="robots" content="all,follow">
-  <!-- Choices.js-->
-  <!--    <link rel="stylesheet" href="vendor/choices.js/public/assets/styles/choices.min.css">-->
   <!-- Google fonts - Muli-->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Muli:300,400,700">
 
-  <!-- Favicon-->
-  <!--    <link rel="shortcut icon" href="img/favicon.ico">-->
   <!-- Tweaks for older IEs--><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
@@ -25,11 +21,9 @@
 </head>
 
 <body>
-<%= puts "controlled_name: #{controller_name}" %>
 <% if controller_name === 'landing' %>
   <%= render 'layouts/header' %>
   <div class="page-content">
-
     <%= yield %>
   </div>
   <%= render 'layouts/footer' %>
@@ -43,7 +37,9 @@
     <%= render 'layouts/sidebar' %>
     <div class="page-content">
       <%= render 'layouts/notices' %>
-      <%= yield %>
+      <div class="container-fluid">
+        <%= yield %>
+      </div>
       <%= render 'layouts/footer' %>
     </div>
 <% end %>

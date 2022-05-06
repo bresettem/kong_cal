@@ -13,7 +13,7 @@ class ClaimsController < ApplicationController
 
   # GET /claims/new
   def new
-    @claim = Claim.new
+    @claim = @user.claim.build
   end
 
   # GET /claims/1/edit

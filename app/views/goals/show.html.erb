@@ -182,6 +182,28 @@
           </div>
         </div>
       </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-circle svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Lab and Higher</p>
+              </div>
+              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
+                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@lab_and_higher[0]) unless @lab_and_higher.nil? %>
+                  days</span>
+                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@lab_and_higher[0]) unless @lab_and_higher.nil? %></span>
+                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@lab_and_higher[1].round(2)) unless @lab_and_higher.nil? %></span>
+                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@lab_and_higher[1], @akc_price) unless @lab_and_higher.nil? %></span>
+                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@lab_and_higher[2].round(2), @akc_price) unless @lab_and_higher.nil? %></span>
+                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@lab_and_higher[2].round(2)) unless @lab_and_higher.nil? %>
+                  $AKC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="container-fluid mt-3">
@@ -231,6 +253,18 @@
         <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
           <div class="accordion-body">
             <%= render 'goals/items', items: @no_tribes[3] unless @no_tribes.nil? %>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header" id="headingFive">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+            Lab and higher
+          </button>
+        </h2>
+        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <%= render 'goals/items', items: @lab_and_higher[3] unless @lab_and_higher.nil? %>
           </div>
         </div>
       </div>

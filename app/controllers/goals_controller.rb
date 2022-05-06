@@ -4,6 +4,7 @@ class GoalsController < ApplicationController
   include Shared
   before_action :set_goal, only: %i[ show edit update destroy ]
   before_action :set_owned
+  before_action :set_last_claimed
   before_action :daily_yield?
   before_action :akc_price?
   before_action :split_daily_yield?
@@ -21,6 +22,7 @@ class GoalsController < ApplicationController
     @num_days = (Time.now.to_date - @user.goals.last.started_on.to_date).to_i
     @errors = Set.new
     @buy_tribes = buy_tribes(@unclaimed_coins, @set_goal)
+    @lab_and_higher = lab_and_higher(@unclaimed_coins, @set_goal)
     @no_tribes = no_tribes(@unclaimed_coins, @set_goal)
     @only_mini_starship = only_mini_starship(@unclaimed_coins, @set_goal)
     @only_mini_lab = only_mini_lab(@unclaimed_coins, @set_goal)
@@ -50,6 +52,7 @@ class GoalsController < ApplicationController
 
   # POST /goals or /goals.json
   def create
+    @last_claimed = Claim.last.claimed.strftime("%d/%m/%Y")
     @goal = @user.goals.build(goal_params)
 
     respond_to do |format|
@@ -95,6 +98,10 @@ class GoalsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_goal
       @goal = @user.goals.find(params[:id])
+    end
+
+    def set_last_claimed
+      @last_claimed = @user.claim.last.claimed.strftime("%Y-%m-%d")
     end
 
     def set_user
@@ -146,7 +153,7 @@ class GoalsController < ApplicationController
         sum += daily_yield
         no_tribes_arr << {
           days: index,
-          on: nil,
+          on: Time.now + index.days,
           bought: 0,
           item: nil,
           sum: sum,
@@ -224,7 +231,7 @@ class GoalsController < ApplicationController
           sum: sum,
           daily_yield: daily_yield
         }
-        puts "Total: #{total_mini_starships}. Bought #{count} mini starships on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
+        # puts "Total: #{total_mini_starships}. Bought #{count} mini starships on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
       end
       [index, daily_yield, sum, only_mini_starship_arr]
     end
@@ -284,7 +291,7 @@ class GoalsController < ApplicationController
           daily_yield: daily_yield
         }
         index += 1
-        puts "Total: #{total_mini_lab}. Bought #{count} mini lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
+        # puts "Total: #{total_mini_lab}. Bought #{count} mini lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
       end
       [index, daily_yield, sum, only_mini_lab_arr]
 
@@ -342,7 +349,7 @@ class GoalsController < ApplicationController
 
         end
         if (sum > prices[:lab_price]) && (lab === false)
-          puts "total: #{total}. lab_price: #{prices[:lab_price]}"
+          # puts "total: #{total}. lab_price: #{prices[:lab_price]}"
           if goal < sum
             buy_tribes_arr << {
               days: index,
@@ -374,7 +381,7 @@ class GoalsController < ApplicationController
           next
         end
         if (sum > prices[:starship_price]) && (starship === false)
-          puts "total: #{total}. starship_price: #{prices[:starship_price]}"
+          # puts "total: #{total}. starship_price: #{prices[:starship_price]}"
           if goal < sum
             buy_tribes_arr << {
               days: index,
@@ -401,7 +408,7 @@ class GoalsController < ApplicationController
           puts "#{index} Bought starship on #{Time.now + index.days}"
         end
         if (sum > prices[:city_price]) && (city === false)
-          puts "total: #{total}. city_price: #{prices[:city_price]}"
+          # puts "total: #{total}. city_price: #{prices[:city_price]}"
           daily_yield += calculate_bonus_goal(11, index)
           if goal < sum
             buy_tribes_arr << {
@@ -421,7 +428,151 @@ class GoalsController < ApplicationController
           puts "#{index} Bought city on #{Time.now + index.days}"
         end
         if sum > prices[:arena_price]
-          puts "total: #{total}. arena_price: #{prices[:arena_price]}. sum: #{sum}"
+          # puts "total: #{total}. arena_price: #{prices[:arena_price]}. sum: #{sum}"
+          arena = true
+
+          if goal < sum
+            buy_tribes_arr << {
+              days: index,
+              on: Time.now + index.days,
+              bought: 1,
+              item: 'Arena',
+              sum: sum,
+              daily_yield: daily_yield
+            }
+            return [index, daily_yield, sum, buy_tribes_arr]
+          end
+          count = 0
+          total_arena = 0
+          while sum > prices[:arena_price]
+            sum -= prices[:arena_price]
+            daily_yield += calculate_bonus_goal(24, index)
+            count += 1
+            # puts "#{index} Bought mini starship on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
+          end
+          next if count === 0
+          total_arena += count
+          total += count
+          buy_tribes_arr << {
+            days: index,
+            on: Time.now + index.days,
+            bought: count,
+            item: 'Arena',
+            sum: sum,
+            daily_yield: daily_yield
+          }
+          puts "#{index} Total Arena: #{total_arena}. Bought arena on #{Time.now + index.days}"
+          # puts "buy_tribes_arr: #{buy_tribes_arr}"
+        end
+        index += 1
+      end
+      [index, daily_yield, sum, buy_tribes_arr]
+    end
+
+    def lab_and_higher(unclaimed_coins, goal)
+      buy_tribes_arr = []
+      sum = unclaimed_coins
+      lab = false
+      starship = false
+      city = false
+      arena = false
+      daily_yield = get_sum[0]
+      max_days = 14
+      return @errors << "Please add Tribe Items before continuing" if daily_yield === 0
+      days = 0
+      total = 0
+      index = 1
+      while goal > sum
+        prices = get_prices(index)
+        sum += daily_yield
+        # days += 1
+        # if days < max_days
+        #   next
+        # end
+        # if days === max_days
+        #   days = 0
+        # end
+        if (sum > prices[:lab_price]) && (lab === false)
+          # puts "total: #{total}. lab_price: #{prices[:lab_price]}"
+          if goal < sum
+            buy_tribes_arr << {
+              days: index,
+              on: Time.now + index.days,
+              bought: 1,
+              item: 'Lab',
+              sum: sum,
+              daily_yield: daily_yield
+            }
+            return [index, daily_yield, sum, buy_tribes_arr]
+          end
+          lab = true
+          sum -= prices[:lab_price]
+          or_dy = 2.5
+          calculated_bonus = calculate_bonus_goal(2.5, index)
+          puts "daily_yield: #{daily_yield}"
+          daily_yield += calculated_bonus
+          after_dy = daily_yield
+          total += 1
+          buy_tribes_arr << {
+            days: index,
+            on: Time.now + index.days,
+            bought: 1,
+            item: 'Lab',
+            sum: sum,
+            daily_yield: daily_yield
+          }
+          puts "#{index} Bought lab on #{Time.now + index.days}. Sum: #{sum}. Daily yield: #{daily_yield}"
+          next
+        end
+        if (sum > prices[:starship_price]) && (starship === false)
+          # puts "total: #{total}. starship_price: #{prices[:starship_price]}"
+          if goal < sum
+            buy_tribes_arr << {
+              days: index,
+              on: Time.now + index.days,
+              bought: 1,
+              item: 'Starship',
+              sum: sum,
+              daily_yield: daily_yield
+            }
+            return [index, daily_yield, sum, buy_tribes_arr]
+          end
+          daily_yield += calculate_bonus_goal(5.2, index)
+          sum -= prices[:starship_price]
+          starship = true
+          total += 1
+          buy_tribes_arr << {
+            days: index,
+            on: Time.now + index.days,
+            bought: 1,
+            item: 'Starship',
+            sum: sum,
+            daily_yield: daily_yield
+          }
+          puts "#{index} Bought starship on #{Time.now + index.days}"
+        end
+        if (sum > prices[:city_price]) && (city === false)
+          # puts "total: #{total}. city_price: #{prices[:city_price]}"
+          daily_yield += calculate_bonus_goal(11, index)
+          if goal < sum
+            buy_tribes_arr << {
+              days: index,
+              on: Time.now + index.days,
+              bought: 1,
+              item: 'City',
+              sum: sum,
+              daily_yield: daily_yield
+            }
+            return [index, daily_yield, sum, buy_tribes_arr]
+          end
+          sum -= prices[:city_price]
+          city = true
+          total += 1
+
+          puts "#{index} Bought city on #{Time.now + index.days}"
+        end
+        if sum > prices[:arena_price]
+          # puts "total: #{total}. arena_price: #{prices[:arena_price]}. sum: #{sum}"
           arena = true
 
           if goal < sum

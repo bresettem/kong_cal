@@ -21,7 +21,7 @@
 </div>
 
 <div class="form-floating mb-3">
-  <%= form.date_field :started_on, class: 'form-control', id: 'started_on', placeholder: Time.now %>
+  <%= form.date_field :started_on, class: 'form-control', id: 'started_on', placeholder: 'MM/DD/YYYY', value: @last_claimed %>
   <%= form.label :started_on, for: 'started_on' %>
 </div>
 
