@@ -3,40 +3,38 @@
     <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
       <div class="card-body p-0">
         <div class="row gx-0 align-items-stretch">
-          <%= render 'devise/shared/info_panel' %>
+          <!-- Logo & Information Panel-->
+          <div class="col-lg-6">
+            <div class="info d-flex justify-content-center flex-column p-4 h-100">
+              <div class="py-5">
+                <h1 class="display-6 fw-bold">Dashboard</h1>
+                <p class="fw-light mb-0">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+              </div>
+            </div>
+          </div>
           <!-- Form Panel    -->
           <div class="col-lg-6 bg-white">
             <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
+
               <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-                <h1 class="text-white">Sign Up</h1>
+                <h2>Sign up</h2>
+
                 <%= render "devise/shared/error_messages", resource: resource %>
 
-                <div class="form-floating mb-4 ">
-                  <%= f.email_field :email, autofocus: true, id: 'floatingEmail', class: 'form-control', placeholder: 'name@example.com' %>
+                <div class="form-floating">
+                  <%= f.email_field :email, autofocus: true, id: 'floatingEmail', class: 'form-control', placeholder: 'name@example.com', autocomplete: 'email' %>
                   <%= f.label :email, for: 'floatingEmail', class: 'label-material' %><br/>
                 </div>
 
-                <div class="form-floating mb-4">
+                <div class="form-floating">
+                  <%= f.password_field :password, autocomplete: "new-password", id: 'password', class: 'form-control', placeholder: 'Password' %>
+                  <%= f.label :password, for: 'password' %>
                   <% if @minimum_password_length %>
                     <em>(<%= @minimum_password_length %> characters minimum)</em>
                   <% end %><br/>
-                  <div class="form-floating mb-3">
-                    <%= f.password_field :password, class: 'form-control', id: 'floatingPassword', placeholder: 'Password', autocomplete: 'new-password', required: true %>
-                    <%= f.label :password, for: 'floatingPassword', class: 'label-material' %>
-                  </div>
                 </div>
 
-                <div class="form-floating mb-3">
-                  <%= f.password_field :password_confirmation, class: 'form-control', id: 'password_confirmation', placeholder: 'Confirm Password', autocomplete: 'new-password', required: true %>
-                  <%= f.label :password_confirmation, for: 'password_confirmation', class: 'label-material' %>
-                </div>
-
-                <div class="form-check mb-4">
-                  <input class="form-check-input" id="register-agree" name="registerAgree" type="checkbox" required value="1" data-validate-field="registerAgree">
-                  <label class="form-check-label form-label" for="register-agree">I agree with the terms and
-                    policy </label>
-                </div>
-                <div class="form-check">
+                <div class="actions mt-2">
                   <%= f.submit "Register", class: 'btn btn-primary mb-3', data: { turbo: false } %>
                 </div>
                 <%= render "devise/shared/links" %>

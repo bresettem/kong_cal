@@ -1,5 +1,25 @@
-<p>Welcome <%= @email %>!</p>
+<div class="login-page">
+  <div class="container d-flex align-items-center position-relative py-5">
+    <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
+      <div class="card-body p-0">
+        <div class="row gx-0 align-items-stretch">
+          <!-- Logo & Information Panel-->
+          <%= render 'devise/shared/info_panel' %>
 
-<p>You can confirm your account email through the link below:</p>
+          <!-- Form Panel    -->
+          <div class="col-lg-6 bg-white">
+            <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+              <p>Welcome <%= @email %>!</p>
+
+              <p>You can confirm your account email through the link below:</p>
+
+              <p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token), class: 'btn btn-primary', data: { turbo: false } %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= render 'devise/shared/footer' %>
+</div>

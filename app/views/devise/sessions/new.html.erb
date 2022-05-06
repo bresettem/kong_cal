@@ -3,26 +3,29 @@
     <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
       <div class="card-body p-0">
         <div class="row gx-0 align-items-stretch">
+          <!-- Logo & Information Panel-->
           <%= render 'devise/shared/info_panel' %>
+
           <!-- Form Panel    -->
           <div class="col-lg-6 bg-white">
             <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
-              <%= form_for(resource, as: resource_name, url: session_path(resource_name), class: 'login-form py-5 w-100') do |f| %>
-                <h1 class="text-white">Sign In</h1>
+              <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+                <h2>Log in</h2>
                 <%= render 'layouts/notices' %>
-                <div class="form-floating mb-3">
-                  <%= f.text_field :email, class: 'form-control input-material', id: 'floatingEmail', name: 'loginUsername', placeholder: 'Email', autofocus: true, required: true %>
-                  <%= f.label :email, for: 'floatingEmail', class: 'label-material' %>
+                <div class="form-floating">
+                  <%= f.email_field :email, autofocus: true, id: 'floatingEmail', class: 'form-control', placeholder: 'name@example.com', autocomplete: 'email' %>
+                  <%= f.label :email, for: 'floatingEmail', class: 'label-material' %><br/>
                 </div>
 
-                <div class="form-floating mb-3">
-                  <%= f.password_field :password, class: 'form-control input-material', id: 'floatingPassword', placeholder: 'Password', required: true %>
-                  <%= f.label :password, for: 'floatingPassword', class: 'label-material' %>
+                <div class="form-floating">
+                  <%= f.password_field :password, autocomplete: "current-password", id: 'password', class: 'form-control', placeholder: 'Password' %>
+                  <%= f.label :password, for: 'password' %><br/>
                 </div>
+
                 <% if devise_mapping.rememberable? %>
-                  <div class="form-check">
+                  <div class="form-check mb-3">
                     <%= f.check_box :remember_me, class: 'form-check-input', id: 'remember_me' %>
-                    <%= f.label :remember_me, for: 'remember_me' %>
+                    <%= f.label :remember_me, class: 'form-check-label', for: 'remember_me' %>
                   </div>
                 <% end %>
 

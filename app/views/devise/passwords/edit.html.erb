@@ -3,23 +3,29 @@
     <div class="card shadow-sm w-100 rounded overflow-hidden bg-none">
       <div class="card-body p-0">
         <div class="row gx-0 align-items-stretch">
+          <!-- Logo & Information Panel-->
           <%= render 'devise/shared/info_panel' %>
+
           <!-- Form Panel    -->
           <div class="col-lg-6 bg-white">
             <div class="d-flex align-items-center px-4 px-lg-5 h-100 bg-dash-dark-2">
               <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+                <h2>Change your password</h2>
                 <%= render "devise/shared/error_messages", resource: resource %>
-                <h2 class="text-white">Change your password</h2>
                 <%= f.hidden_field :reset_password_token %>
 
-                <div class="form-floating mb-4">
+                <div class="form-floating">
+                  <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: 'form-control', id: 'password' %>
+                  <%= f.label :password, "New password", for: 'password' %><br/>
                   <% if @minimum_password_length %>
-                    <em>(<%= @minimum_password_length %> characters minimum)</em>
-                  <% end %><br/>
-                  <div class="form-floating mb-3">
-                    <%= f.password_field :password, class: 'form-control', id: 'floatingPassword', placeholder: 'Password', autocomplete: 'new-password', required: true %>
-                    <%= f.label :password, for: 'floatingPassword', class: 'label-material' %>
-                  </div>
+                    <em>(<%= @minimum_password_length %> characters minimum)</em><br/>
+                  <% end %>
+                </div>
+
+                <div class="form-floating">
+                  <%= f.label :password_confirmation, "Confirm new password", id: 'password_confirmation', class: 'form-control' %>
+                  <br/>
+                  <%= f.password_field :password_confirmation, autocomplete: "new-password", for: 'password_confirmation' %>
                 </div>
 
                 <div class="actions">
