@@ -4,5 +4,5 @@
   <%= link_to "Edit this claim", edit_claim_path(@claim) %> |
   <%= link_to "Back to claims", user_claims_path(@user) %>
 
-  <%= button_to "Destroy this claim", @claim, method: :delete %>
+  <%= button_to "Destroy this claim", @claim, class: 'btn btn-danger', method: :delete %>
 </div>

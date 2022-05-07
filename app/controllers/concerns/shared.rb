@@ -4,7 +4,6 @@ module Shared
 
   def get_sum
     owned = get_owned
-    puts "owned: #{owned.empty?}"
     return 0 if owned.empty?
     sum = 0
     owned.each do |o|
@@ -13,7 +12,6 @@ module Shared
       end
     end
     return 0 if sum === 0
-    puts "sum: #{sum}"
     find_claim = @user.claim
     user_claim = if find_claim.empty?
                    0
@@ -33,7 +31,6 @@ module Shared
         sum += o.daily_yield
       end
     end
-    puts "sum: #{sum}"
     calculate_bonus_goal(sum, goal)
   end
 

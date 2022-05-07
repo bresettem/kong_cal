@@ -29,6 +29,32 @@
           </div>
         </div>
       </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-calendar-day svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Number of days to collect</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1"><%= number_with_delimiter(@num_days_to_collect) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="card mb-0">
+          <div class="card-body">
+            <div class="d-flex align-items-end justify-content-between mb-2">
+              <div class="me-2">
+                <i class="fa-solid fa-calendar-day svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">First day to collect</p>
+              </div>
+              <p class="text-xxl lh-1 mb-0 text-dash-color-1"><%= number_with_delimiter(@first_day_to_collect.strftime('%m/%d/%Y')) %></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">

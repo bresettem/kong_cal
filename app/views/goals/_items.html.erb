@@ -8,6 +8,7 @@
         <td>Bought</td>
         <td>$AKC</td>
         <td>Daily Yield</td>
+        <td>Daily Yield USD</td>
         <td>7 days</td>
         <td>14 days</td>
         <td>30 days</td>
@@ -20,12 +21,13 @@
       <%= raise "Items is nil. #{items}" if items.nil? %>
       <% items.each do |item| %>
         <tr>
-          <td><%= item[:days] %></td>
+          <td><%= number_with_delimiter(item[:days]) %></td>
           <td><%= item[:on].strftime('%m/%d/%Y') unless item[:on].nil? %></td>
-          <td><%= pluralize(item[:bought], item[:item]) unless item[:item].nil? %></td>
-          <td><%= item[:sum].round(3) unless item[:sum].nil? %></td>
+          <td><%= pluralize(number_with_delimiter(item[:bought]), item[:item]) unless item[:item].nil? %></td>
+          <td><%= number_with_delimiter(item[:sum].round(3)) unless item[:sum].nil? %></td>
           <% dy = item[:daily_yield].round(3) %>
-          <td><%= dy %></td>
+          <td><%= number_with_delimiter(dy) %></td>
+          <td><%= number_to_currency(@akc_price * dy) %></td>
           <td><%= number_to_currency(@akc_price * (dy * 7)) %></td>
           <td><%= number_to_currency(@akc_price * (dy * 14)) %></td>
           <td><%= number_to_currency(@akc_price * (dy * 30)) %></td>

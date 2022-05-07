@@ -25,6 +25,16 @@
   <%= form.label :started_on, for: 'started_on' %>
 </div>
 
+<div class="form-floating mb-3">
+  <%= form.number_field :num_days_to_collect, class: 'form-control', id: 'num_days_to_collect' %>
+  <%= form.label :num_days_to_collect, for: 'num_days_to_collect' %>
+</div>
+
+<div class="form-floating mb-3">
+  <%= form.date_field :first_day_to_collect, class: 'form-control', id: 'first_day_to_collect', placeholder: 'MM/DD/YYYY' %>
+  <%= form.label :first_day_to_collect, for: 'first_day_to_collect' %>
+</div>
+
 <div>
   <%= form.submit class: 'btn btn-success' %>
 </div>
