@@ -172,7 +172,14 @@
         <% @tribe_items.each do |tribe_item| %>
           <tr>
             <td><%= tribe_item.item %></td>
-            <td><%= sum_daily_yield(tribe_item.daily_yield, tribe_item.owned) %></td>
+            <% sum = sum_daily_yield(tribe_item.daily_yield, tribe_item.owned) %>
+            <td> <%= sum[1] %>
+              <% if sum[0].to_f > 0.0 %>
+              <span data-bs-toggle="tooltip" data-bs-placement="top" title="Original: <%= sum[0] %>">
+                        <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+                      </span>
+              <% end %>
+            </td>
             <td><%= tribe_item.price %></td>
             <td><%= number_to_currency(tribe_item.price * @akc_price) %></td>
             <td><%= number_with_delimiter(tribe_item.owned) %></td>

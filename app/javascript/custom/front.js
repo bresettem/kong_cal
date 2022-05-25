@@ -1,4 +1,6 @@
 "use strict";
+import * as bootstrap from "bootstrap"
+
 document.addEventListener("turbo:load", function () {
     // ------------------------------------------------------- //
     // Transition Placeholders

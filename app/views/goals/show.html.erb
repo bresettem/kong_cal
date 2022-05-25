@@ -120,180 +120,54 @@
 
   <div class="row gy-4">
     <div class="row gy-4">
-      <div class="col-md-3 col-sm-6">
-        <div class="card mb-3">
-          <div class="card-body">
-            <div class="d-flex align-items-end justify-content-between mb-2">
-              <div class="me-2">
-                <i class="fa-solid fa-warehouse svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Buying Tribes</p>
-              </div>
-              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@buy_tribes[0]) unless @buy_tribes.nil? %>
-                  days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@buy_tribes[0]) unless @buy_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@buy_tribes[1].round(2)) unless @buy_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@buy_tribes[1], @akc_price) unless @buy_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@buy_tribes[2].round(2), @akc_price) unless @buy_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@buy_tribes[2].round(2)) unless @buy_tribes.nil? %>
-                  $AKC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="card mb-0">
-          <div class="card-body">
-            <div class="d-flex align-items-end justify-content-between mb-2">
-              <div class="me-2">
-                <i class="fa-solid fa-rocket svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Only Mini Starships</p>
-              </div>
-              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@only_mini_starship[0]) unless @only_mini_starship.nil? %>
-                  days</span>
-                <span class="badge rounded-pill bg-danger"><%= format_date(@only_mini_starship[0]) unless @only_mini_starship.nil? %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@only_mini_starship[1].round(2)) unless @only_mini_starship.nil? %></span>
-                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@only_mini_starship[1], @akc_price) unless @only_mini_starship.nil? %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@only_mini_starship[2].round(2), @akc_price) unless @only_mini_starship.nil? %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@only_mini_starship[2].round(2)) unless @only_mini_starship.nil? %>
-                  $AKC</span>
+      <% @show.each do |k, v| %>
+        <% next if v.nil? %>
+        <div class="col-md-3 col-sm-6">
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="d-flex align-items-end justify-content-between mb-2">
+                <div class="me-2">
+                  <i class="fa-solid fa-warehouse svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
+                  <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0"><%= k.to_s.humanize %></p>
+                </div>
+                <div class="text-xxs lh-1 mb-0 text-dash-color-1">
+                <span class="badge rounded-pill bg-primary m-1">
+                  <%= number_with_delimiter(v[0]) %> days
+                  <span data-bs-toggle="tooltip" data-bs-placement="top" title="<%= distance_of_time_in_words(0, v[0].days) %>">
+                    <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+                  </span>
+                </span>
+                  <span class="badge rounded-pill bg-danger">Date: <%= format_date(v[0]) unless v.nil? %></span>
+                  <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(v[1].round(2)) unless v.nil? %></span>
+                  <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(v[1], @akc_price) unless v.nil? %></span>
+                  <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(v[2].round(2), @akc_price) unless v.nil? %></span>
+                  <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(v[2].round(2)) unless v.nil? %>
+                    $AKC</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="card mb-0">
-          <div class="card-body">
-            <div class="d-flex align-items-end justify-content-between mb-2">
-              <div class="me-2">
-                <i class="fa-solid fa-flask svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Only Mini Labs</p>
-              </div>
-              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@only_mini_lab[0]) unless @only_mini_lab.nil? %>
-                  days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@only_mini_lab[0]) unless @only_mini_lab.nil? %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@only_mini_lab[1].round(2)) unless @only_mini_lab.nil? %></span>
-                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@only_mini_lab[1], @akc_price) unless @only_mini_lab.nil? %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@only_mini_lab[2].round(2), @akc_price) unless @only_mini_lab.nil? %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@only_mini_lab[2].round(2)) unless @only_mini_lab.nil? %>
-                  $AKC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="card mb-0">
-          <div class="card-body">
-            <div class="d-flex align-items-end justify-content-between mb-2">
-              <div class="me-2">
-                <i class="fa-solid fa-circle svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">No Tribes</p>
-              </div>
-              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@no_tribes[0]) unless @no_tribes.nil? %>
-                  days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@no_tribes[0]) unless @no_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@no_tribes[1].round(2)) unless @no_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@no_tribes[1], @akc_price) unless @no_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@no_tribes[2].round(2), @akc_price) unless @no_tribes.nil? %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@no_tribes[2].round(2)) unless @no_tribes.nil? %>
-                  $AKC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-3 col-sm-6">
-        <div class="card mb-0">
-          <div class="card-body">
-            <div class="d-flex align-items-end justify-content-between mb-2">
-              <div class="me-2">
-                <i class="fa-solid fa-circle svg-icon svg-icon-sm svg-icon-heavy text-gray-600 mb-2"></i>
-                <p class="text-sm text-uppercase text-gray-600 lh-1 mb-0">Lab and Higher</p>
-              </div>
-              <div class="text-xxs lh-1 mb-0 text-dash-color-1">
-                <span class="badge rounded-pill bg-primary m-1"><%= number_with_delimiter(@lab_and_higher[0]) unless @lab_and_higher.nil? %>
-                  days</span>
-                <span class="badge rounded-pill bg-danger">Date: <%= format_date(@lab_and_higher[0]) unless @lab_and_higher.nil? %></span>
-                <span class="badge rounded-pill bg-secondary m-1">Daily Yield: <%= number_with_delimiter(@lab_and_higher[1].round(2)) unless @lab_and_higher.nil? %></span>
-                <span class="badge rounded-pill bg-success m-1">DY: <%= convert_to_usd(@lab_and_higher[1], @akc_price) unless @lab_and_higher.nil? %></span>
-                <span class="badge rounded-pill bg-warning text-dark m-1">Leftover: <%= convert_to_usd(@lab_and_higher[2].round(2), @akc_price) unless @lab_and_higher.nil? %></span>
-                <span class="badge rounded-pill bg-info text-dark m-1"><%= number_with_delimiter(@lab_and_higher[2].round(2)) unless @lab_and_higher.nil? %>
-                  $AKC</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
-  <div class="container-fluid mt-3">
+  <div class="mt-3">
     <div class="accordion" id="accordionExample">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-            All Tribes Mini Starship and Higher
-          </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <%= render 'goals/items', items: @buy_tribes[3] unless @buy_tribes.nil? %>
+      <% @show.each.with_index do |(k, v), index| %>
+        <% next if v.nil? %>
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading-<%= index %>">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<%= index %>" aria-expanded="false" aria-controls="collapse-<%= index %>">
+              <%= k.to_s.titleize %>
+            </button>
+          </h2>
+          <div id="collapse-<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading-<%= index %>" data-bs-parent="#accordionExample">
+            <div class="accordion-body">
+              <%= render 'goals/items', items: v[3] unless v.nil? %>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingTwo">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            Only Mini Starships
-          </button>
-        </h2>
-        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <%= render 'goals/items', items: @only_mini_starship[3] unless @only_mini_starship.nil? %>
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingThree">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-            Only Mini Labs
-          </button>
-        </h2>
-        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <%= render 'goals/items', items: @only_mini_lab[3] unless @only_mini_lab.nil? %>
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingFour">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-            No Tribes
-          </button>
-        </h2>
-        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <%= render 'goals/items', items: @no_tribes[3] unless @no_tribes.nil? %>
-          </div>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingFive">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-            Lab and higher
-          </button>
-        </h2>
-        <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            <%= render 'goals/items', items: @lab_and_higher[3] unless @lab_and_higher.nil? %>
-          </div>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>

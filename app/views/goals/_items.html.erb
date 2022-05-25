@@ -20,7 +20,7 @@
       <%#= raise "items: #{items}" %>
       <%= raise "Items is nil. #{items}" if items.nil? %>
       <% items.each do |item| %>
-        <tr>
+        <tr class="text-end">
           <td><%= number_with_delimiter(item[:days]) %></td>
           <td><%= item[:on].strftime('%m/%d/%Y') unless item[:on].nil? %></td>
           <td><%= pluralize(number_with_delimiter(item[:bought]), item[:item]) unless item[:item].nil? %></td>
@@ -28,12 +28,42 @@
           <% dy = item[:daily_yield].round(3) %>
           <td><%= number_with_delimiter(dy) %></td>
           <td><%= number_to_currency(@akc_price * dy) %></td>
-          <td><%= number_to_currency(@akc_price * (dy * 7)) %></td>
-          <td><%= number_to_currency(@akc_price * (dy * 14)) %></td>
-          <td><%= number_to_currency(@akc_price * (dy * 30)) %></td>
-          <td><%= number_to_currency(@akc_price * (dy * 60)) %></td>
-          <td><%= number_to_currency(@akc_price * (dy * 90)) %></td>
-          <td><%= number_to_currency(@akc_price * (dy * 365)) %></td>
+          <td>
+            <%= number_to_currency(@akc_price * (dy * 7)) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="7 days from bought: <%= (item[:on] + 7.days).strftime("%m/%d/%Y") %>">
+              <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+            </span>
+          </td>
+          <td>
+            <%= number_to_currency(@akc_price * (dy * 14)) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="7 days from bought: <%= (item[:on] + 14.days).strftime("%m/%d/%Y") %>">
+              <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+            </span>
+          </td>
+          <td>
+            <%= number_to_currency(@akc_price * (dy * 30)) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="30 days from bought: <%= (item[:on] + 30.days).strftime("%m/%d/%Y") %>">
+              <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+            </span>
+          </td>
+          <td>
+            <%= number_to_currency(@akc_price * (dy * 60)) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="60 days from bought: <%= (item[:on] + 60.days).strftime("%m/%d/%Y") %>">
+              <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+            </span>
+          </td>
+          <td>
+            <%= number_to_currency(@akc_price * (dy * 90)) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="90 days from bought: <%= (item[:on] + 90.days).strftime("%m/%d/%Y") %>">
+              <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+            </span>
+          </td>
+          <td>
+            <%= number_to_currency(@akc_price * (dy * 365)) %>
+            <span data-bs-toggle="tooltip" data-bs-placement="top" title="365 days from bought: <%= (item[:on] + 365.days).strftime("%m/%d/%Y") %>">
+              <sup><i class="fa-solid fa-info-circle text-gray-600 "></i></sup>
+            </span>
+          </td>
         </tr>
       <% end %>
     </table>
